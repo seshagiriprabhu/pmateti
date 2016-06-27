@@ -9,11 +9,13 @@ body {
     margin-bottom: 60px;
 }
 .footer {
+	border-top-width: 2px;
+	border-top-style: solid;
+	border-top-color: #333;
     padding-top: 10px;
     position: absolute;
     bottom: 0;
     width: 100%;
     /* Set the fixed height of the footer here */
     height: 60px;
-    background-color: #1B1B1B;
 }
