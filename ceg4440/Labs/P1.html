@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>PMateti ISSISP 2016</title>
+        <!-- Bootstrap Core CSS -->
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/style.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <style>
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+        </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../index.html">Prabhaker Mateti</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="../../android-security.html">Android Security</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+        <!-- Page Content -->
+        <div class="container">
+            <h1 style="text-align:center">Get started with Android Development</h1>
+            [<a href="../../android-security.html"><span class="glyphicon glyphicon glyphicon-arrow-left"></span> Back</a>]
+            <br/>
+            The purpose of this lab/project is
+            <ul>
+                <li>
+                    To make you aware that an Android device is a fully networked computer system
+                </li>
+                <li>
+                    To get you started with software design and development on the Android
+                    platform.  This first project focuses on a few simple tasks.
+                </li>
+            </ul>
+            IDE == Android Studio with IntelliJ Idea (recommended), or Eclipse;
+            Report == a single PDF file with descriptions as suggested.  Refer to
+            the Android developer's site <a href="http://developer.android.com/">
+                http://developer.android.com/</a> for detailed guides.  Generally
+            speaking, build the APKs for Android 5.1.  All lab work is expected to
+            be performed on Linux systems connected to Android devices (phones or
+            tablets).
+            <h2>Task 1: Android Networking APKs</h2>
+            Download from Google Play and install 
+            <ul>
+                <li>An SFTP/SSH server</li>
+                <li>An ssh client/terminal</li>
+                <li>A local terminal on your Android device.</li>
+            </ul>
+            Some example APKs are <code>web.oss.sshsftp</code>, <code>sk.vx.connectbot</code>,
+            <code>com.spartacusrex.spartacuside</code>.  But, you are welcome to choose other
+            APKs that fit the description.
+            <br/>
+            <strong>Deliverables: </strong>
+            <ul>
+                <li>
+                    Please include in your Report your experience of using these apps.
+                </li> 
+                <li>
+                    Include several screenshots running the APKs 
+                    in the emulator or real device in your write-up.
+                </li>
+            </ul>
+            <h2>Task 2: Android Developement</h2>
+            Use IDE to build "Hello-This-Is-Me" APK and run it within
+            Android Emulator or on a device of your choice.  It is highly
+            recommended that you first build the "Hello World" following the
+            developer.android.com tutorial.
+            <ol>
+                <li>
+                    Display text "1. CEG 4440 Android Security -"+ &lt;your
+                    name&gt; on the screen by using code.
+                </li>
+                <li>
+                    Display text "2. CEG 4440 Android Security -" + &lt;your
+                    name&gt; on the screen by XML	
+                </li>
+                <li>Display your photo on the screen.</li>
+                <li>
+                    Use two different layouts in Android to display the text 
+                    "CEG 4440 Android Security - " + &lt;your name&gt;
+                    followed by your photo.
+                </li>
+                <li>
+                    Combine all the above into one APK with multiple screens with
+                    transitions in the order shown.
+                </li>
+            </ol>
+            <strong>Deliverables: </strong>
+            <ul>
+                <li>
+                    Please include in your Report your experience on the 
+                    installation and verification of Android Studio. 
+                </li>
+                <li>    
+                    Include several screenshots running the APK in the emulator (or real device)
+                    in your write-up.
+                </li>
+                <li>
+                    Your project files (java, xml, etc) exported
+                    from your Android project as an archive.
+                </li>
+                <li><code>HelloThisIsMe.apk</code></li>
+            </ul>
+            <h2>Task 3: Personally Build an Android Open Source App</h2>
+            <pre>% git clone https://code.google.com/p/apps-for-android/</pre>
+            <pre>
+Amazed              Panoramio          Samples
+AndroidGlobalTime   DivideAndConquer   Photostream    SpriteMethodTest
+AnyCut              HeightMapProfiler  Radar          WikiNotes
+BTClickLinkCompete  LolcatBuilder      
+CLiCkin2DaBeaT      RingsExtended
+            </pre>
+            Select from the list above an app to enhance in later lab projects.
+            To successfully build, you may have to tweak several files.  Build
+            in the Linux environment -- any distribution.  Google Android
+            recommends Ubuntu.
+            The above apps vary quite a bit in complexity.  Do not hesitate to
+            try what appears to be hard one from the list.  Show us your effort in
+            the Report file, and we will be very supportive.
+            
+            In later projects, we will focus on mobile computing (i.e.,
+            networking, processes/threads, location based services, etc.)  rather
+            than UI.  Use this as a criterion for selection.
+            <br/>
+            <strong>Deliverables:</strong>
+            <ul>
+                <li>
+                    Include in the Report an overview of what you did, followed 
+                    by an exhaustive list of changes you made.
+                </li>
+                <li>The APK produced </li>
+            </ul>
+            <h2>Task 4: adb (Android Debug Bridge) </h2>
+            <a href="http://developer.android.com/tools/help/adb.html">
+                http://developer.android.com/tools/help/adb.html</a>
+            <ol>
+                <li> 
+                    (If using a real device: Physically connect a real Android
+                    device to a PC with a USB cable.)
+                </li>
+                <li>Connect to this device using adb.</li>
+                <li>Install the above apk.</li>
+                <li>Invoke shell.</li>
+                <li>List the command file names of <code>/system/bin</code> and
+                    <code>/system/xbin</code> of this device.</li>
+                <li> List the partitions and what is mounted where.</li>
+            </ol>
+            <strong>Deliverables:</strong>
+            <ul>
+                <li>
+                    Capture all of the above into the Report file.
+                    [Hint: Use the command named script.]
+                </li>
+            </ul>
+        </div>
+        <!-- /.container -->
+        <footer class="footer">
+            <div class="container">
+                <div class="col-md-8 col-md-offset-4">
+                    <p>Copyright © 2016 | pmateti [AT] wright [DOT] edu | ISSISP 2016</p>
+                </div>
+            </div>
+        </footer>
+        <!-- jQuery Version 1.11.1 -->
+        <script src="../../js/jquery.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../../js/bootstrap.min.js"></script>
+    </body>
+</html>

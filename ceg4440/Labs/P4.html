@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>PMateti ISSISP 2016</title>
+        <!-- Bootstrap Core CSS -->
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/style.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <style>
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+        </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../index.html">Prabhaker Mateti</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="../../android-security.html">Android Security</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+        <!-- Page Content -->
+        <div class="container">
+            <h1 style="text-align:center">Get started with Android Development</h1>
+            [<a href="../../android-security.html"><span class="glyphicon glyphicon glyphicon-arrow-left"></span> Back</a>]
+            <br/>
+            The purpose of this lab is to get you deeper into security issues
+            in/around Android using APKs of free open source versions
+            (<a href="http://en.wikipedia.org/wiki/Free_and_open-source_software">FOSS</a>).  <strike>Recall
+            the content of our
+            <a href="./ethicsStmt.html"> Ethics Statement</a></strike>.
+
+            <h3>Task 1: Malicious Apps </h3>
+            Task: Study the design, the source code, and actual use of
+            a <i>malicious</i> app.  Use the one described below or some other,
+            but open source, of your choice.
+
+            <a href="https://code.google.com/p/sms-bomber/">
+                https://code.google.com/p/sms-bomber/</a> bombards your "friends"
+            with many SMS in a short period.  Study the code so that you truly
+            understand all its internals.  Before bombarding install an 
+            <a href="https://play.google.com/store/search?q=anti%20sms%20spam&c=apps">
+                Anti SMS Spam</a> app.
+            Alternate download:
+            <a href="https://github.com/pmateti/sms-bomber/">
+                https://github.com/pmateti/sms-bomber/</a>
+
+            SMS messages can be sent
+            <a href="http://xjaphx.wordpress.com/2011/07/07/">
+                among AVDs running on the same machine</a>, 
+            but not between an AVD and a real device.
+
+            <br/>
+            <strong>Deliverables</strong>: 
+            <ul>
+                <li>A <i>design</i> description of the app</li>
+                <li>Screenshots showing all the bad effects implemented.</li>
+                <li>The apk you chose.  Include even if it is the one above.</li>
+                <li>Complete source code bundled as a tar ball or zip.</li>
+            </ul>
+
+            <h3>Task 2: Privacy</h3>
+            Task: Experience a privacy enhancing app.  Use the one described
+            below or some other well trusted app of your choice.
+            TextSecure "encrypts your text and chat messages over the air and
+            on your phone."  It is available on Google Play.  FOSS:
+            <a href="https://whispersystems.org/"> whispersystems.org</a>.
+
+            <br/>
+            <strong>Deliverables</strong>:
+            <ul>
+                <li>The apk you chose.  Include even if it is the one above.</li> 
+                <li>A description why you trust this app</li>
+                <li><i>design</i> description of the app after a quick read of the source code</li>
+                <li>Selected screenshots of the app annotated.</li>
+            </ul>
+
+            <h3>Task 3: Internals</h3>
+            Task: Learn more of Android Internals related to security.  Answer
+            any two of the "exercises" presented by <i>the</i> following app.
+            IGLearner app is designed to teach internals and security of
+            Android through puzzles/ quizzes.  It is available on Google Play.
+            FOSS: <a href="https://github.com/intrepidusgroup/ig-learner">
+                github.com/intrepidusgroup/ig-learner</a>
+
+            <br/>
+            <strong>Deliverables</strong>:
+            <br/>
+            Studying the source code of iglearner is optional
+            <ul>
+                <li>Your answers to two of the "exercises" presented by iglearner.</li>
+                <li>Related annotated screenshots.</li>
+            </ul>
+
+            <h3>Task 4: Reversing </h3>
+            Task: Reverse engineer the details of an apk for which we <i>do not</i>
+            have source code.  Use the one described below or some other of your
+            choice.  It need not be a malware.
+
+            Zeam is an "underdog minimalistic launcher" rated 4+ stars, with a 1M+
+            installs.  It is available on
+            <a href="https://play.google.com/store/apps/details?id=org.zeam">
+                Google Play
+            </a>.  It is free to use, but not known to be open source.  Our goal
+            is not to break the intentions of its author but practice the art of
+            reversing on a tool that is impressively small for all the
+            functionality it packs.
+
+            <br/>
+            <strong>Deliverables</strong>:
+            <ul>
+                <li>The apk you chose.  Include even if it is the one above.</li>
+                <li>Bundle of all derived/ reverse engineered files as a tar
+                    ball or zip</li>
+                <li>A deduced <i>design</i> description of the app.</li>
+                <li>Selected screenshots, not of the app but of the reversing,
+                    annotated.</li>
+            </ul>
+            <h3>Task B: Bonus </h3>
+
+            This part is optional, but highly encouraged.  Your score is
+            proportional to your success.  Bonus points, from P2, P3, ..., are
+            used to help push you into one-better-letter grade than what you would
+            otherwise get.  E.g., if you are about get a B, with enough bonus
+            points, you might get an A instead.  This is done without having any
+            lowering effect of the normal A's for other students.  All of this is
+            subjectively judged; no algorithmic details or grading rubric will be
+            given.
+            <h4>Malicious App and its AntiDote [Bonus Points 20+ 20 (+ 10?)]</h4>
+
+            Task: Write a pair of apps: one a malicious app (20 points) and the other that
+            protects (20 points) from this app.  These must be of <i>your own</i> design.
+            Make sure that there are no lingering "bad" effects after terminating your
+            app.   Assume that your apps are side-loaded by the user, but verified by
+            the built-in app-install subsystem.
+            Ten additional bonus points if your app is devious.
+
+            <br/>
+            <strong>Deliverables</strong>:
+            <ul>
+                <li>A design description of the app.</li>
+                <li>Screenshots showing each of the bad effects implemented </li>
+                <li>The APKs</li>
+                <li>Complete source code bundled as a tar ball or zip.</li>
+            </ul>
+            <h4>Update CommonContacts [Bonus Points 20+ 20]</h4>
+
+            <a href="https://play.google.com/store/apps/details?id=edu.virginia.cs.secgrp.seccomp.contacts2">
+                Common Contacts</a>, edu.virginia.cs.secgrp.seccomp.contacts2, is
+            available on
+            <a href="https://play.google.com/store/apps/details?id=edu.virginia.cs.secgrp.seccomp.contacts2">
+                Google Play</a>.  It deserves lot more downloads.  It was done in
+            2011.  "CommonContacts allows two users to collaboratively discover
+            common entries in their address books without disclosing any other
+            information about their contacts. The application uses a secure
+            computation framework built using [author] Yao's garbled circuit
+            technique. All computation involving private data is performed on
+            encrypted data so no information is released to the other party
+            (other than what can be inferred from the result)."
+            Task: (20 points) Web search and find its source code. Update this
+            for Lollipop/Marshmallow.  Use material design, etc.  (20 points)
+            Write a design document.
+
+            <br/>
+            <strong>Deliverables</strong>:
+            <ul>
+                <li>A design description of the revised app</li>
+                <li>Screenshots showing off the revised app</li>
+                <li>The revised APK</li>
+                <li>Complete source code bundled as a tar ball or zip.</li>
+            </ul>
+        </div>
+        <!-- /.container -->
+        <footer class="footer">
+            <div class="container">
+                <div class="col-md-8 col-md-offset-4">
+                    Copyright © 2016 | pmateti [AT] wright [DOT] edu | ISSISP 2016</p>
+                </div>
+            </div>
+        </footer>
+        <!-- jQuery Version 1.11.1 -->
+        <script src="../../js/jquery.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../../js/bootstrap.min.js"></script>
+    </body>
+</html>
