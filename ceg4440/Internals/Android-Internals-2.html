@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>PMateti ISSISP 2016</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/style.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <style>
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+        </style>
+    </head>
+
+    <body>
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../index.html">Prabhaker Mateti</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="../../android-security.html">Android Security</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container">
+            <h1 style="text-align:center">Android Internals 2</h1>
+            [<a href="index.html"><span class="glyphicon glyphicon glyphicon-arrow-left"></span> Back</a>]
+            <br/>
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="text-table-of-contents">
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="#sec-1">Overview</a></li>
+                            <li class="list-group-item"><a href="#sec-2">Android Partitions and File Volumes</a></li>
+                            <li class="list-group-item"><a href="#sec-3">Android Debug Bridge (adb) Internals</a></li>
+                            <li class="list-group-item"><a href="#sec-4">Boot Sequence</a></li>
+                            <li class="list-group-item"><a href="#sec-5">Android Runtime</a></li>
+                            <li class="list-group-item"><a href="#sec-6">Binder</a></li>
+                            <li class="list-group-item"><a href="#sec-7">Zygote</a></li>
+                            <li class="list-group-item"><a href="#sec-8">Activity Manager service</a></li>
+                            <li class="list-group-item"><a href="#sec-9">Miscellaneous System Tools</a></li>
+                            <li class="list-group-item"><a href="#sec-10">References</a></li>
+                        </ul>
+                    </div> <!-- table of contents -->
+                </div> <!-- col-md-4 -->
+            </div> <!-- row -->
+
+
+            <div id="outline-container-sec-1" class="outline-2">
+                <h2 id="sec-1"><span class="section-number-2">1</span> Overview</h2>
+                <div class="outline-text-2" id="text-1">
+                    <ol class="org-ol">
+                        <li>The Software Content of an Android Device
+                        </li>
+                        <li>Boot Sequence
+                        </li>
+                        <li>The Running State
+                        </li>
+                        <li>Shutdown Sequence
+                        </li>
+                        <li>Support Daemons: installd, vold, netd, rild, keystore
+                        </li>
+                        <li>Hardware Abstraction Layer
+                        </li>
+                        <li>Over The Air upgrade system
+                        </li>
+                        <li>Focussed on explaining the conceptual; for details look up in the book, etc.
+                        </li>
+                    </ol>
+                </div>
+
+                <div id="outline-container-sec-1-1" class="outline-3">
+                    <h3 id="sec-1-1"><span class="section-number-3">1.1</span> Android Architecture</h3>
+                    <div class="outline-text-3" id="text-1-1">
+
+                        <div class="figure">
+                            <p><img src="./ape-fwk-all.png" alt="lsm-access.jpg" align="center width: 100%" class="img-responsive"/>
+                            </p>
+                            <p><span class="figure-number">Figure 1:</span> Android System Architecture [From source.android.com]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-2" class="outline-2">
+                <h2 id="sec-2"><span class="section-number-2">2</span> <a href="./partitions.html">Android Partitions and File Volumes</a></h2>
+            </div>
+
+            <div id="outline-container-sec-3" class="outline-2">
+                <h2 id="sec-3"><span class="section-number-2">3</span> Android Debug Bridge (adb) Internals</h2>
+                <div class="outline-text-2" id="text-3">
+
+                    <div class="figure">
+                        <p><img src="./Fig/adb-client-server.png" alt="adb-client-server.png" align="center" width="100%"  class="img-responsive"/>
+                        </p>
+                        <p><span class="figure-number">Figure 2:</span> adb Internals as Client Server (Fig 6.3 Embedded Android book)</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="outline-container-sec-4" class="outline-2">
+                <h2 id="sec-4"><span class="section-number-2">4</span> Boot Sequence</h2>
+                <div class="outline-text-2" id="text-4">
+                    <ol class="org-ol">
+                        <li>Power-On =&gt; Boot Loader =&gt; Linux Kernel =&gt; Process Init
+                        </li>
+                        <li>Boot Loader is on a boot partition
+                        </li>
+                        <li>On Linux PC: Linux kernel, e.g., <code>/boot/vmlinuz-3.13.0-29-lowlatency</code> 
+                        </li>
+                        <li>On Android: boot partition contains the kernel
+                        </li>
+                        <li><a href="http://forum.xda-developers.com/wiki/Bootloader">http://forum.xda-developers.com/wiki/Bootloader</a>
+                        </li>
+                    </ol>
+                </div>
+
+
+                <div id="outline-container-sec-4-1" class="outline-3">
+                    <h3 id="sec-4-1"><span class="section-number-3">4.1</span> root@mako # cat /proc/cmdline</h3>
+                    <div class="outline-text-3" id="text-4-1">
+                        <pre class="example">
+console=ttyHSL0,115200,n8 androidboot.hardware=mako lpj=67677
+user_debug=31 uart_console=enable lcd_maker_id=primary
+lge.hreset=off lge.reset=mode_reset gpt=enable lge.kcal=0|0|0|x
+lge.rev=rev_11 androidboot.emmc=true
+androidboot.serialno=01cc270747d52fcc
+androidboot.bootloader=MAKOZ30d androidboot.baseband=mdm
+bootreason=reboot
+                        </pre>
+                    </div>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-5" class="outline-2">
+                <h2 id="sec-5"><span class="section-number-2">5</span> Android Runtime</h2>
+                <div class="outline-text-2" id="text-5">
+
+                    <div id="runtime.png" class="figure">
+                        <p><img src="./Fig/runtime.png" alt="runtime.png" align="center" width="100%"  class="img-responsive"/>
+                        </p>
+                        <p><span class="figure-number">Figure 3:</span> Android in Running State</p>
+                    </div>
+
+                    <ol class="org-ol">
+                        <li>Chronological order: 1, 2, 3A, &#x2026;
+                        </li>
+
+                        <li>Understand <code>USER     PID   PPID  VSIZE  RSS     WCHAN    PC         NAME</code> columns
+                            <ol class="org-ol">
+                                <li>Look up the man page of <code>ps</code> on Linux.
+                                </li>
+                            </ol>
+                        </li>
+
+                        <li><code>root@generic:/ # ps</code> on emulator-5554
+                            <pre class="example">
+USER     PID   PPID  VSIZE  RSS     WCHAN    PC         NAME
+root      1     0     640    496   c00bd520 00019fb8 S /init
+root      2     0     0      0     c00335a0 00000000 S kthreadd
+root      3     2     0      0     c001e39c 00000000 S ksoftirqd/0
+root      4     2     0      0     c002f170 00000000 S kworker/0:0
+root      5     2     0      0     c002f170 00000000 S kworker/u:0
+root      6     2     0      0     c002e744 00000000 S khelper
+root      7     2     0      0     c0093bb4 00000000 S sync_supers
+root      8     2     0      0     c0094470 00000000 S bdi-default
+root      9     2     0      0     c002e744 00000000 S kblockd
+root      10    2     0      0     c002e744 00000000 S rpciod
+root      12    2     0      0     c008d790 00000000 S kswapd0
+root      13    2     0      0     c00e34bc 00000000 S fsnotify_mark
+root      14    2     0      0     c002e744 00000000 S crypto
+root      25    2     0      0     c0216434 00000000 S mtdblock0
+root      26    2     0      0     c0216434 00000000 S mtdblock1
+root      27    2     0      0     c0216434 00000000 S mtdblock2
+root      29    2     0      0     c002e744 00000000 S binder
+root      30    2     0      0     c002e744 00000000 S deferwq
+root      31    2     0      0     c002f170 00000000 S kworker/u:2
+root      32    2     0      0     c0242fa8 00000000 S mmcqd/0
+root      33    1     588    312   c00bd520 00019fb8 S /sbin/ueventd
+root      35    2     0      0     c0142db4 00000000 S jbd2/mtdblock0-
+root      36    2     0      0     c002e744 00000000 S ext4-dio-unwrit
+root      41    2     0      0     c0142db4 00000000 S jbd2/mtdblock1-
+root      42    2     0      0     c002e744 00000000 S ext4-dio-unwrit
+root      44    2     0      0     c002f170 00000000 S kworker/0:2
+root      45    1     1428   140   c00e68a4 0001120c S /sbin/healthd
+system    46    1     1000   340   c0253e80 b6ef041c S /system/bin/servicemanager
+root      47    1     4660   1168  ffffffff b6f22d14 S /system/bin/vold
+root      49    1     9784   1284  ffffffff b6f4fd14 S /system/bin/netd
+root      50    1     1028   424   c0262d18 b6edf110 S /system/bin/debuggerd
+radio     51    1     5500   856   ffffffff b6ebdd14 S /system/bin/rild
+system    52    1     18876  5944  ffffffff b6ea85cc S /system/bin/surfaceflinger
+root      53    1     202568 39640 ffffffff b6eb0568 S zygote
+drm       54    1     6924   2532  ffffffff b6e5341c S /system/bin/drmserver
+media     55    1     21516  5384  ffffffff b6f5a41c S /system/bin/mediaserver
+install   56    1     988    452   c02f5e30 b6f56158 S /system/bin/installd
+keystore  57    1     3340   1208  c0253e80 b6ec441c S /system/bin/keystore
+root      58    1     920    364   c00e68a4 b6f495cc S /system/bin/qemud
+shell     61    1     924    468   c01eb6dc b6f60158 S /system/bin/sh
+root      62    1     4584   212   ffffffff 000190ac S /sbin/adbd
+system    372   53    268204 37504 ffffffff b6eb15cc S system_server
+u0_a7     424   53    223700 30244 ffffffff b6eb15cc S com.android.systemui
+media_rw  442   1     3508   452   ffffffff b6f46158 S /system/bin/sdcard
+u0_a5     447   53    215200 22320 ffffffff b6eb15cc S android.process.media
+u0_a29    509   53    221232 24116 ffffffff b6eb15cc S com.android.inputmethod.latin
+radio     523   53    233992 25212 ffffffff b6eb15cc S com.android.phone
+u0_a8     536   53    227260 30528 ffffffff b6eb15cc S com.android.launcher
+system    741   53    219940 19048 ffffffff b6eb15cc S com.android.settings
+u0_a4     774   53    216196 18192 ffffffff b6eb15cc S com.android.dialer
+u0_a1     857   53    214480 20152 ffffffff b6eb15cc S com.android.providers.calendar
+u0_a9     875   53    220416 20256 ffffffff b6eb15cc S com.android.mms
+u0_a16    901   53    221672 19820 ffffffff b6eb15cc S com.android.calendar
+u0_a20    922   53    215180 20356 ffffffff b6eb15cc S com.android.deskclock
+u0_a24    941   53    223376 22860 ffffffff b6eb15cc S com.android.email
+u0_a25    961   53    215452 18268 ffffffff b6eb15cc S com.android.exchange
+root      991   62    928    492   c0010008 b6f87fa0 S /system/bin/sh
+root      1013  2     0      0     c00cfa90 00000000 S flush-31:1
+root      1020  991   1236   460   00000000 b6eff158 R ps
+                            </pre>
+                        </li>
+
+                        <li>There is a volatile-abstract directory within <code>/proc</code> named after each of the <code>pid</code>
+                            <ol class="org-ol">
+                                <li>Explore these subdirectories further.
+                                </li>
+                            </ol>
+                        </li>
+
+                        <li><code>root@generic:/ # service list</code> Found 75 services &#x2026;
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-6" class="outline-2">
+                <h2 id="sec-6"><span class="section-number-2">6</span> <a href="./binder.html">Binder</a></h2>
+            </div>
+
+            <div id="outline-container-sec-7" class="outline-2">
+                <h2 id="sec-7"><span class="section-number-2">7</span> Zygote</h2>
+                <div class="outline-text-2" id="text-7">
+                    <ol class="org-ol">
+                        <li>From a dictionary: zyÂ·gote n. (i) The cell formed by the union of
+                            two gametes, especially a fertilized ovum before cleavage. (ii) The
+                            organism that develops from a zygote.
+                        </li>
+
+                        <li>Process <code>init</code> starts zygote.  It is a process with pre-loaded
+                            Dalivik/ART VM.  Starts listening on a socket for 
+                            requests to spawn off applications.
+                        </li>
+
+                        <li>ActivityManagerService writes commands to this socket.
+                        </li>
+
+                        <li>An application starts as a <code>fork</code> of Zygote.
+                        </li>
+
+                        <li>Recall that process address spaces are disjoint.  But, libraries
+                            common to processes are not loaded as duplicates &#x2013; instead they
+                            are shared behind the scenes in Linux virtual memory management.
+                        </li>
+                    </ol>
+
+
+                    <div class="figure">
+                        <p><img src="./Fig/app-launch-summary.jpg" alt="app-launch-summary.jpg" align="center" width="100%"  class="img-responsive"/>
+                        </p>
+                        <p><span class="figure-number">Figure 4:</span> Android's Zygote</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-8" class="outline-2">
+                <h2 id="sec-8"><span class="section-number-2">8</span> Activity Manager service</h2>
+                <div class="outline-text-2" id="text-8">
+                    <ol class="org-ol">
+                        <li>Read from Embedded Android book
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-9" class="outline-2">
+                <h2 id="sec-9"><span class="section-number-2">9</span> Miscellaneous System Tools</h2>
+                <div class="outline-text-2" id="text-9">
+                </div><div id="outline-container-sec-9-1" class="outline-3">
+                    <h3 id="sec-9-1"><span class="section-number-3">9.1</span> dumpstate</h3>
+                    <div class="outline-text-3" id="text-9-1">
+                        <ol class="org-ol">
+                            <li>Read from Embedded Android book
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-10" class="outline-2">
+                <h2 id="sec-10"><span class="section-number-2">10</span> References</h2>
+                <div class="outline-text-2" id="text-10">
+                    <ol class="org-ol">
+                        <li>Karim Yaghmour, Embedded Android, O'Reilly Media, Inc., 2013, 412
+                            pp; WSU Safari Books Online 9781449327958; Chapter 6: Native
+                            User-Space. Required Reading.
+                        </li>
+
+                        <li><a href="http://stackoverflow.com/questions/9153166/">http://stackoverflow.com/questions/9153166/</a> understanding-android- zygote-
+                            and- dalvikvm 2012 Recommended Reading
+                        </li>
+
+                        <li><a href="http://forum.xda-developers.com/wiki/Bootloader">http://forum.xda-developers.com/wiki/Bootloader</a>  Recommended Reading
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+
+        <footer class="footer">
+            <div class="container">
+                <div class="col-md-8 col-md-offset-4">
+                    <p>Copyright © 2016 | pmateti [AT] wright [DOT] edu | ISSISP 2016</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- jQuery Version 1.11.1 -->
+        <script src="../../js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../../js/bootstrap.min.js"></script>
+
+    </body>
+
+</html>

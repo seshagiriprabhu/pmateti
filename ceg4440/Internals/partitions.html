@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>PMateti ISSISP 2016</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/style.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <style>
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+        </style>
+    </head>
+
+    <body>
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../index.html">Prabhaker Mateti</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="../../android-security.html">Android Security</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container">
+            <h1 style="text-align:center">Android Partitions and File Volumes</h1>
+            [<a href="Android-Internals-2.html"><span class="glyphicon glyphicon glyphicon-arrow-left"></span> Back</a>]
+            <br/>
+
+            <div id="outline-container-sec-1" class="outline-2">
+                <h2 id="sec-1"><span class="section-number-2">1</span> Abstract</h2>
+                <div class="outline-text-2" id="text-1">
+                    <p>
+                    Android Partitions and File Volumes.  The contents shown here may not
+                    match exactly with that of a specific device.
+                    </p>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-2" class="outline-2">
+                <h2 id="sec-2"><span class="section-number-2">2</span> Mount Points and Partitions</h2>
+                <div class="outline-text-2" id="text-2">
+                    <ol class="org-ol">
+                        <li><code>boot</code> partition. Contains boot loader, etc.  Not mounted any where.
+                        </li>
+                        <li><code>system</code> mounted read-only at <code>/system/</code>, has dirs app bin etc
+                            fonts framework lib lost+found media priv-app usr vendor xbin
+                        </li>
+                        <li><code>cache</code> mounted at <code>/cache/</code> semi-permanent volume; if emptied will
+                            be rebuilt.
+                        </li>
+                        <li><code>userdata</code> mounted at <code>/data/</code> Your settings, credentials, etc.
+                        </li>
+                        <li><code>misc</code> mounted at <code>/misc</code> on some systems.  "Miscellaneous"
+                        </li>
+                        <li><code>recovery</code> partition: Contains kernel + initrd + recovery binary for the recovery system.
+                        </li>
+                        <li><code>/sdcard</code> Even on devices that do not have a removable uSDcard, an
+                            emulation of such a device is at /sdcard.
+                        </li>
+                        <li><code>/extSDcard</code> mount point of the removal uSD-card.  Usually a <code>vfat</code>
+                            volume. The name is non-standard.
+                        </li>
+                        <li><code>/selinux</code>   see <a href="../Security">Android-Security</a>.
+                        </li>
+                        <li>The path names beginning with <code>/</code> are mount points.  Do <code>adb shell
+                                cat /proc/mounts</code> to see the mounts.
+                        </li>
+                        <li>See later for a specific example: Android One Sprout
+                        </li>
+                    </ol>
+                </div>
+
+                <div id="outline-container-sec-2-1" class="outline-3">
+                    <h3 id="sec-2-1"><span class="section-number-3">2.1</span> Virtual Device pmNX5</h3>
+                    <div class="outline-text-3" id="text-2-1">
+                        <ol class="org-ol">
+                            <li>Persistent Partitions of AVD pmNX5 
+                                <ol class="org-ol">
+                                    <li><code>% adb -s emulator-5554 shell</code>
+                                    </li>
+                                    <li><code># cat /proc/partitions</code>
+                                        <div class="org-src-container">
+
+                                            <pre class="src src-bash"> 
+ major minor    #blocks name
+ 31        0     563200 mtdblock0
+ 31        1     204800 mtdblock1
+ 31        2      65536 mtdblock2
+179        0      16384 mmcblk0 
+                                            </pre>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </li>
+
+                            <li>Persistent Partition Mounts pmNX5 (<code># cat /proc/mounts</code> trimmed)
+
+                                <div class="org-src-container">
+
+                                    <pre class="src src-bash">
+mtdblock0 /system ext4 ro,seclabel,relatime,data=ordered
+mtdblock1 /data ext4 rw,seclabel,nosuid,nodev,noatime
+vold/179:0 /mnt/media_rw/sdcard vfat rw,dirsync,nosuid,nodev,noexec,relatime,uid=1023,gid=1023,fmask=0007,dmask=0007,allow_utime=0020,codepage=cp437,iocharset=iso8859-1,shortname=mixed,utf8,errors=remount-ro 0 0
+/dev/fuse /storage/sdcard fuse rw,nosuid,nodev,relatime,user_id=1023,group_id=1023,default_permissions,allow_other 0 0
+                                    </pre>
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="outline-container-sec-2-2" class="outline-3">
+                    <h3 id="sec-2-2"><span class="section-number-3">2.2</span> Attributes/Properties of the Mounted Volumes</h3>
+                    <div class="outline-text-3" id="text-2-2">
+                        <ol class="org-ol">
+                            <li><code>ro</code> read only; <code>rw</code> read and write
+                            </li>
+                            <li><code>relatime</code> atime = maintain access time, rel = relaxed
+                            </li>
+                            <li><code>noatime</code> do not maintain access time
+                            </li>
+                            <li><code>data=ordered</code> journaling detail; versus <code>writeback</code> and <code>journal</code>
+                            </li>
+                            <li><code>seclabel, nosuid nodev,noexec uid=1023, ...</code> see <a href="../Security">Android-Security</a>.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="outline-container-sec-2-3" class="outline-3">
+                    <h3 id="sec-2-3"><span class="section-number-3">2.3</span> Android One Sprout Partitions</h3>
+                    <div class="outline-text-3" id="text-2-3">
+                        <div class="org-src-container">
+
+                            <pre class="src src-bash"># ls -l /dev/block/platform/mtk-msdc.0/by-name/
+lrwxrwxrwx root root 2009-12-31 19:00 boot -> /dev/block/mmcblk0p7
+lrwxrwxrwx root root 2009-12-31 19:00 bootloader -> /dev/block/mmcblk0p6
+lrwxrwxrwx root root 2009-12-31 19:00 cache -> /dev/block/mmcblk0p15
+lrwxrwxrwx root root 2009-12-31 19:00 expdb -> /dev/block/mmcblk0p13
+lrwxrwxrwx root root 2009-12-31 19:00 gen -> /dev/block/mmcblk0p18
+lrwxrwxrwx root root 2009-12-31 19:00 logo -> /dev/block/mmcblk0p11
+lrwxrwxrwx root root 2009-12-31 19:00 metadata -> /dev/block/mmcblk0p17
+lrwxrwxrwx root root 2009-12-31 19:00 nvram -> /dev/block/mmcblk0p2
+lrwxrwxrwx root root 2009-12-31 19:00 oem -> /dev/block/mmcblk0p12
+lrwxrwxrwx root root 2009-12-31 19:00 para -> /dev/block/mmcblk0p10
+lrwxrwxrwx root root 2009-12-31 19:00 proinfo -> /dev/block/mmcblk0p1
+lrwxrwxrwx root root 2009-12-31 19:00 protect1 -> /dev/block/mmcblk0p3
+lrwxrwxrwx root root 2009-12-31 19:00 protect2 -> /dev/block/mmcblk0p4
+lrwxrwxrwx root root 2009-12-31 19:00 recovery -> /dev/block/mmcblk0p8
+lrwxrwxrwx root root 2009-12-31 19:00 seccfg -> /dev/block/mmcblk0p5
+lrwxrwxrwx root root 2009-12-31 19:00 secro -> /dev/block/mmcblk0p9
+lrwxrwxrwx root root 2009-12-31 19:00 system -> /dev/block/mmcblk0p14
+lrwxrwxrwx root root 2009-12-31 19:00 userdata -> /dev/block/mmcblk0p16
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="outline-container-sec-2-4" class="outline-3">
+                    <h3 id="sec-2-4"><span class="section-number-3">2.4</span> system/app</h3>
+                    <div class="outline-text-3" id="text-2-4">
+                        <ol class="org-ol">
+                            <li>Example apk details from pmNX5 AVD
+                                <pre class="example">
+-rw-r--r-- root      3133706 2013-12-05 14:09 Browser.apk
+-rw-r--r-- root       877624 2013-12-05 14:09 Browser.odex
+-rw-r--r-- root      2525294 2013-12-05 14:10 DeskClock.apk
+-rw-r--r-- root       587576 2013-12-05 14:10 DeskClock.odex
+-rw-r--r-- root       651969 2013-12-05 14:09 Gallery.apk
+-rw-r--r-- root       230072 2013-12-05 14:09 Gallery.odex
+                                </pre>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-3" class="outline-2">
+                <h2 id="sec-3"><span class="section-number-2">3</span> Volatile/Abstract Volumes</h2>
+                <div class="outline-text-2" id="text-3">
+                    <ol class="org-ol">
+                        <li>What is a file? Four essential ops: open(), close(), read(), write()
+                        </li>
+                        <li>Persistent v volatile v abstract
+                        </li>
+                        <li>Classic Examples of "Abstract" files (Linux/Android)
+                            <div class="org-src-container">
+
+                                <pre class="src src-bash">
+root@generic:/ # ls -l /dev/zero                                               
+crw-rw-rw- root        1,   5 2014-06-10 22:50 zero
+crw-rw-rw- root        1,   3 2014-06-10 22:50 null
+crw-rw-rw- root        1,   8 2014-06-10 22:50 random
+crw-rw-rw- root        1,   9 2014-06-10 22:50 urandom
+                                </pre>
+                            </div>
+                        </li>
+                        <li><code>/dev</code> a normal directory
+                        </li>
+                        <li><code>/dev/*</code> special <i>device</i> files
+                        </li>
+                        <li>Note the major (1) and minor (5, 3, 8, 9) device numbers.
+                        </li>
+                    </ol>
+                </div>
+
+                <div id="outline-container-sec-3-1" class="outline-3">
+                    <h3 id="sec-3-1"><span class="section-number-3">3.1</span> Memory as "Files"</h3>
+                    <div class="outline-text-3" id="text-3-1">
+                        <div class="org-src-container">
+
+                            <pre class="src src-bash">
+root@generic:/ # ls -l /dev/*mem                                               
+crw-rw-rw- root     root      10,  60 2014-06-10 22:50 ashmem
+crw------- root     root       1,   2 2014-06-10 22:50 kmem
+crw------- root     root       1,   1 2014-06-10 22:50 mem
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="outline-container-sec-3-2" class="outline-3">
+                    <h3 id="sec-3-2"><span class="section-number-3">3.2</span> Volatile/Abstract Files/Dirs/Volumes</h3>
+                    <div class="outline-text-3" id="text-3-2">
+                        <ol class="org-ol">
+                            <li>Android OS internals "presented" as files/directories.
+
+                                <div class="org-src-container">
+
+                                    <pre class="src src-bash">
+rootfs  / rootfs ro,relatime
+tmpfs   /dev tmpfs rw,seclabel,nosuid,relatime,mode=755
+devpts  /dev/pts devpts rw,seclabel,relatime,mode=600
+proc    /proc proc rw,relatime
+sysfs   /sys sysfs rw,seclabel,relatime
+selinuxfs       /sys/fs/selinux selinuxfs rw,relatime
+debugfs /sys/kernel/debug debugfs rw,relatime
+none    /acct cgroup rw,relatime,cpuacct
+none    /sys/fs/cgroup tmpfs rw,seclabel,relatime,mode=750,gid=1000
+tmpfs   /mnt/asec tmpfs rw,seclabel,relatime,mode=755,gid=1000
+tmpfs   /mnt/obb tmpfs rw,seclabel,relatime,mode=755,gid=1000
+none    /dev/cpuctl cgroup rw,relatime,cpu
+                                    </pre>
+                                </div>
+                            </li>
+
+                            <li><code>selinuxfs, ...</code> <a href="../Security">Android-Security</a>.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div id="outline-container-sec-3-3" class="outline-3">
+                    <h3 id="sec-3-3"><span class="section-number-3">3.3</span> rootfs</h3>
+                    <div class="outline-text-3" id="text-3-3">
+                        <div class="org-src-container">
+
+                            <pre class="src src-bash">
+root@generic:/ # ls -l /
+drwxr-xr-x root     root              2014-06-10 22:50 acct
+drwxrwx--- system   cache             2014-06-10 22:50 cache
+dr-x------ root     root              2014-06-10 22:50 config
+lrwxrwxrwx root     root              2014-06-10 22:50 d -> /sys/kernel/debug
+drwxrwx--x system   system            2014-06-09 09:28 data
+-rw-r--r-- root     root          116 1969-12-31 19:00 default.prop
+drwxr-xr-x root     root              2014-06-10 22:50 dev
+lrwxrwxrwx root     root              2014-06-10 22:50 etc -> /system/etc
+-rw-r--r-- root     root         8870 1969-12-31 19:00 file_contexts
+-rw-r----- root     root          953 1969-12-31 19:00 fstab.goldfish
+-rwxr-x--- root     root       175260 1969-12-31 19:00 init
+-rwxr-x--- root     root          919 1969-12-31 19:00 init.environ.rc
+-rwxr-x--- root     root         2979 1969-12-31 19:00 init.goldfish.rc
+-rwxr-x--- root     root        19848 1969-12-31 19:00 init.rc
+-rwxr-x--- root     root         1795 1969-12-31 19:00 init.trace.rc
+-rwxr-x--- root     root         3915 1969-12-31 19:00 init.usb.rc
+drwxrwxr-x root     system            2014-06-10 22:50 mnt
+dr-xr-xr-x root     root              1969-12-31 19:00 proc
+-rw-r--r-- root     root         2161 1969-12-31 19:00 property_contexts
+drwx------ root     root              2013-07-09 20:46 root
+drwxr-x--- root     root              1969-12-31 19:00 sbin
+lrwxrwxrwx root     root              2014-06-10 22:50 sdcard -> /storage/sdcard
+-rw-r--r-- root     root          656 1969-12-31 19:00 seapp_contexts
+-rw-r--r-- root     root        74768 1969-12-31 19:00 sepolicy
+drwxr-x--x root     sdcard_r          2014-06-10 22:50 storage
+dr-xr-xr-x root     root              2014-06-10 22:50 sys
+drwxr-xr-x root     root              1969-12-31 19:00 system
+-rw-r--r-- root     root          272 1969-12-31 19:00 ueventd.goldfish.rc
+-rw-r--r-- root     root         4024 1969-12-31 19:00 ueventd.rc
+lrwxrwxrwx root     root              2014-06-10 22:50 vendor -> /system/vendor
+                            </pre>
+                        </div>
+
+                        <ol class="org-ol">
+                            <li>The <code>/init</code> is the equivalent of <code>/sbin/init</code> of Despktop Linux.
+                                It orchestrates all services using the configuration given in
+                                <code>/initrc</code>.  Its lineage is different from the init-systems of Linux
+                                (such as systemd, upstart and systemv-init).
+                            </li>
+
+                            <li><code>goldfish</code> is the name of a virtual CPU of emulated platforms.
+                            </li>
+
+                            <li><code>sepolicy</code> is the SE-Linux policy file.  "SE Linux policy v26 MLS 8
+                                symbols 7 ocons"
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div id="outline-container-sec-4" class="outline-2">
+                <h2 id="sec-4"><span class="section-number-2">4</span> References</h2>
+                <div class="outline-text-2" id="text-4">
+                    <ol class="org-ol">
+                        <li>Gathered from many sources.  Details change from Android KitKat to
+                            Lollipop to M &#x2026;
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+
+        <footer class="footer">
+            <div class="container">
+                <div class="col-md-8 col-md-offset-4">
+                    <p>Copyright © 2016 | pmateti [AT] wright [DOT] edu | ISSISP 2016</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- jQuery Version 1.11.1 -->
+        <script src="../../js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../../js/bootstrap.min.js"></script>
+
+    </body>
+
+</html>
