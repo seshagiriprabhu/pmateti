@@ -5,11 +5,9 @@
         <meta charset="utf-8"/>
         <title>Android Security</title>
 
-        <link rel="stylesheet" href="http://www.cs.wright.edu/~pmateti/RevealJS/css/reveal.css">
-        <link rel="stylesheet"
-              href="http://www.cs.wright.edu/~pmateti/RevealJS/css/theme/night.css"
-              id="theme">
-        <link rel="stylesheet" href="http://www.cs.wright.edu/~pmateti/RevealJS/lib/css/zenburn.css">
+        <link rel="stylesheet" href="../../css/reveal.min.css"/>
+        <link rel="stylesheet" href="../../css/night.css" id="theme"/>
+        <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print"/>
         <style> P {text-align: justify}
 code {font-family: monospace,courier; font-size: 9pt; color: bisque;}
         </style>
@@ -144,8 +142,8 @@ code {font-family: monospace,courier; font-size: 9pt; color: bisque;}
 </section>
             </div>
         </div>
-        <script src="http://www.cs.wright.edu/~pmateti/RevealJS/lib/js/head.min.js"></script>
-        <script src="http://www.cs.wright.edu/~pmateti/RevealJS/js/reveal.js"></script>
+        <script src="../../js/head.min.js"></script>
+        <script src="../../js/reveal.min.js"></script>
 
         <script>
 Reveal.initialize({
@@ -162,12 +160,12 @@ Reveal.initialize({
     transitionSpeed: 'default',
 
     dependencies: [
-    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-    { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-    { src: 'plugin/zoom-js/zoom.js', async: true },
-    { src: 'plugin/notes/notes.js', async: true }
+    { src: '../../js/classList.js', condition: function() { return !document.body.classList; } }
+    ,{ src: '../../js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+    ,{ src: '../../js/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+    ,{ src: '../../js/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+    ,{ src: '../../js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }
+    ,{ src: '../../js/notes.js', async: true, condition: function() { return !!document.body.classList; } }
     ]
 });
         </script>
