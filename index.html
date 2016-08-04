@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>PMateti ISSISP 2016</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <style>
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+        </style>
+    </head>
+
+    <body>
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html">Prabhaker Mateti</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="android-security.html">Android Security</a>
+                        </li>
+                        <li>
+                            <a href="cv.html">Curriculum Vitae</a>
+                        </li>
+                        <li>
+                            <a href="contact.html">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container">
+            <div class="jumbotron" id="aboutMe">
+                <p style="font-size:110%">
+                <img src="images/Mateti.jpg" alt="aziz mohaisen" align="left" hspace="10"  height="160" class="img-rounded">
+                I am an <a href="https://www.linkedin.com/in/prabhaker-mateti-b1312415" target="_blank">Associate Professor</a> 
+                in the Department of Computer Science and Engineering at the Wright State University, Dayton, Ohio. 
+                I earned my Ph.D. degree in Computer Science from the 
+                <a href="http://www.cs.uiuc.edu/" target="_blank">University of Illinois</a> at Urbana Champaign in 1976. 
+                <br/><br/>
+                My research interests are Internet Security, Distributed Computing, Software Engineering, 
+                and Language Design. I designed a specification and design language called 
+                <a href="http://cecs.wright.edu/~pmateti/OM/om0.html" target="_blank">OM</a>. 
+                I have directed several <a href="http://cecs.wright.edu/~pmateti/GradStudents/index.html" target="_blank">MS Thesis</a>
+                and three <a href="http://cecs.wright.edu/~pmateti/GradStudents/index.html" target="_blank">Ph.D dissertations</a>.
+                <br/>
+                <span class="label label-info">Links</span>: <a href="http://dblp.uni-trier.de/pers/hd/m/Mateti:Prabhaker" target="_blank">DBLP</a>, 
+                <a href="https://scholar.google.com/citations?user=YkoSoeUAAAAJ&hl=en" target="_blank">Google Scholar</a>
+                <span class="label label-info">Teaching</span>: <a href="http://cecs.wright.edu/~pmateti/Courses/4440/Top/" target="_blank">CEG 4440</a>,
+                <a href="http://cecs.wright.edu/~pmateti/Courses/7370/Top" target="_blank">CEG 7370</a>,
+                <a href="http://cecs.wright.edu/~pmateti/Courses/7140" target="_blank">CS 7140</a>
+                </p>
+            </div>
+            <!-- jumbotron -->
+
+            <div class="well" id="aboutCourse">
+                <a href="android-security.html">
+                    <h2 style="text-align:center">Android Security session at ISSISP 2016</h2>
+                </a>
+                <p style="text-align:justify;text-justify: inter-word;">
+                Smart phones have become the computing platform to help us lead our modern
+                daily lives.  Android devices are physically small devices but otherwise
+                far better equipped with multiple networks, cameras, and sensors than 
+                typical desktop computers. That they make phone calls is incidental.
+                That they are on the body of their owners is significant. It is in this 
+                context that we should understand the security and privacy issues raised 
+                by these devices. Current research focus is mostly on UI, location/context 
+                based applications, and conservation of battery power, but the layers deep 
+                within the mobile platform that handle security and privacy are not as good 
+                as they can be.
+                <br/>
+                <br/>
+                We survey the exploits of the last couple of years ranging from arbitrary
+                code execution, Heartbleed to StageFright.  In order to understand the
+                technical details behind these, we must also understand not only the
+                internals of the Android mobile OS, Java, Linux, and ARM CPU but also cloud
+                computing and storage, and crowd sourcing.  In a lab environment, we let
+                the users experience some of the exploits.  We present the details of
+                rooting a device, reverse engineering the source code from its APK, and
+                what it takes to design and build a custom ROM that can include proactive
+                forensics. 
+                </p>
+            </div>
+        </div>
+        <!-- /.container -->
+
+        <footer class="footer">
+            <div class="container">
+                <p style="text-align:center">
+                Copyright © 2016 | pmateti [AT] wright [DOT] edu | ISSISP 2016
+                </p>
+            </div>
+        </footer>
+
+        <!-- jQuery Version 1.11.1 -->
+        <script src="js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
+
+    </body>
+
+</html>

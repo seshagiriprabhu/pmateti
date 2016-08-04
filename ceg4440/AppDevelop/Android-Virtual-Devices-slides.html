@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Android Security</title>
+
+        <link rel="stylesheet" href="../../css/reveal.min.css"/>
+        <link rel="stylesheet" href="../../css/night.css" id="theme"/>
+        <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print"/>
+        <style> P {text-align: justify}
+code {font-family: monospace,courier; font-size: 9pt; color: bisque;}
+        </style>
+    </head>
+    <body>
+
+        <div class="reveal">
+            <div class="slides">
+
+                <section>
+                    <h1 class="title"> Android Security</h1>
+                    <h2 style="color: yellow"> Prabhaker Mateti<h2>
+                            <h3>Wright State University</h3>
+                            <a href="http://www.cs.wright.edu/~pmateti">
+                                <tt>www.cs.wright.edu/~pmateti</tt></a>
+                </section>
+                <section "id=first">
+                    2015-06-24 <a href="./Android-Virtual-Devices-slides.html">Slides</a> | <a href="./index.html">OnePage</a>
+                </section>
+                <section id="content">
+                    <h1 class="title">Android Virtual Devices Emulator</h1>
+                    <h2>Table of Contents</h2>
+                    <ul>
+                        <li><a href="#sec-1">1. Android SDK Subdirs</a></li>
+                        <li><a href="#sec-2">2. Emulator: What is Where?</a>
+                            <ul>
+                                <li><a href="#sec-2-1">2.1. pmNX5a.avd/</a></li>
+                                <li><a href="#sec-2-2">2.2. Disk Images</a></li>
+                                <li><a href="#sec-2-3">2.3. pmNX5a.avd Contents</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#sec-3">3. Starting AVDs</a>
+                            <ul>
+                                <li><a href="#sec-3-1">3.1. Starting AVDs #1</a></li>
+                                <li><a href="#sec-3-2">3.2. Starting AVDs #2</a></li>
+                                <li><a href="#sec-3-3">3.3. Install apks in Snapshots</a></li>
+                                <li><a href="#sec-3-4">3.4. toolbox</a></li>
+                                <li><a href="#sec-3-5">3.5. Install busybox into the emulator-5554</a></li>
+                                <li><a href="#sec-3-6">3.6. Install busybox into the emulator-5554  contd.</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#sec-4">4. Networking AVDs</a></li>
+                        <li><a href="#sec-5">5. File System</a>
+                            <ul>
+                                <li><a href="#sec-5-1">5.1. Mount Table of emulator-5554 pmNX5</a></li>
+                                <li><a href="#sec-5-2">5.2. Mount Table of emulator-5554 pmNX5</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#sec-6">6. References</a></li>
+                    </ul>
+                </section>
+                </section>
+
+                <section id="outline-container-sec-1" class="outline-2">
+                    <h2 id="sec-1"><span class="section-number-2">1</span> Android SDK Subdirs</h2>
+                    <sectionX  id="text-1">
+                    <ol class="org-ol">
+                        <li><code>% ls android-sdk-linux/</code>
+                            <section class="org-src-container">
+
+                                <pre class="src src-bash">add-ons      docs    platforms       samples         sources        temp
+build-tools  extras  platform-tools  SDK Readme.txt  system-images  tools
+                                </pre>
+                            </section>
+                        </li>
+
+                        <li>Explore all the above directories.  Source code for several Android
+                            Apps is in subdirs named <code>samples</code> or <code>apps</code>
+                        </li>
+                    </ol>
+                </section>
+                </section>
+
+                <section id="outline-container-sec-2" class="outline-2">
+                    <h2 id="sec-2"><span class="section-number-2">2</span> Emulator: What is Where?</h2>
+                    <sectionX  id="text-2">
+                    <ol class="org-ol">
+                        <li><code>~/.android/</code> Parent directory of Android files specific to you.
+                        </li>
+
+                        <li><code>.ini</code> and <code>.cfg</code> Text files describing the initialization/ config
+                            to various tools.  You can edit but carefully.
+                        </li>
+
+                        <li><code>% du -sh ~/.android/</code>   Mine is 5.3 GB.
+                        </li>
+
+                        <li>My AVD is named pmNX5a.  Cloned Nexus-5.
+                        </li>
+                    </ol>
+                </section>
+
+                <section id="outline-container-sec-2-1" class="outline-3">
+                    <h3 id="sec-2-1"><span class="section-number-3">2.1</span> pmNX5a.avd/</h3>
+                    <sectionX  id="text-2-1">
+                    <p>
+                    <code>% ls -g ~/.android/avd/pmNX5a.avd/</code>
+                    </p>
+
+                    <section class="org-src-container">
+
+                        <pre class="src src-bash">total 2770472
+-rw------- 1 pmateti          0 May 24 21:55 cache.img
+-rw-rw-r-- 1 pmateti        364 May 24 23:19 config.ini
+-rw-rw-r-- 1 pmateti         49 May 24 23:36 emulator-user.ini
+-rw-rw-r-- 1 pmateti       1370 May 24 23:46 hardware-qemu.ini
+-rw-rw-r-- 1 pmateti  104857600 May 24 22:34 sdcard.img
+-rw-rw-r-- 1 pmateti 2312830976 May 24 21:56 snapshots.img
+-rw-rw-r-- 1 pmateti       1444 May 24 21:56 snapshots.img.default-boot.ini
+-rw-rw-r-- 1 pmateti  209715200 May 24 21:53 userdata.img
+-rw------- 1 pmateti  209715200 Jun  2 07:05 userdata-qemu.img
+-rw------- 1 pmateti          6 Jun  2 06:34 userdata-qemu.img.lock
+                        </pre>
+                    </section>
+                </section>
+                </section>
+
+                <section id="outline-container-sec-2-2" class="outline-3">
+                    <h3 id="sec-2-2"><span class="section-number-3">2.2</span> Disk Images</h3>
+                    <sectionX  id="text-2-2">
+                    <ol class="org-ol">
+                        <li>Default image files
+                        </li>
+                        <li>Runtime images: user data and SD card
+                        </li>
+                        <li>User-Data Image
+                        </li>
+                        <li>Temporary Images
+                        </li>
+                        <li>for detailed descriptions:
+                            <a href="http://developer.android.com/tools/devices/emulator.html">http://developer.android.com/tools/devices/emulator.html</a>
+                        </li>
+                    </ol>
+                </section>
+                </section>
+
+                <section id="outline-container-sec-2-3" class="outline-3">
+                    <h3 id="sec-2-3"><span class="section-number-3">2.3</span> pmNX5a.avd Contents</h3>
+                    <sectionX  id="text-2-3">
+                    <ol class="org-ol">
+                        <li><code>man file</code> The command named <code>file</code> can recognize the content of a
+                            file regardless of its name.
+                        </li>
+
+                        <li><code>% file ~/.android/avd/pmNX5.avd/*.img</code>
+                            <section class="org-src-container">
+
+                                <pre class="src src-bash">cache.img:         empty 
+sdcard.img:        x86 boot sector
+snapshots.img:     QEMU QCOW Image (v2), 524288000 bytes
+userdata.img:      Linux rev 1.0 ext4 filesystem data, 
+  UUID=57f8f4bc-abf4-655f-bf67-946fc0f9f25b (extents) (large files)
+userdata-qemu.img: Linux rev 1.0 ext4 filesystem data, 
+  UUID=57f8f4bc-abf4-655f-bf67-946fc0f9f25b (needs journal recovery) 
+  (extents) (large files)
+                                </pre>
+                            </section>
+                        </li>
+                    </ol>
+                </section>
+                </section>
+                </section>
+
+                <section id="outline-container-sec-3" class="outline-2">
+                    <h2 id="sec-3"><span class="section-number-2">3</span> Starting AVDs</h2>
+                    <sectionX  id="text-3">
+                </section><section id="outline-container-sec-3-1" class="outline-3">
+                    <h3 id="sec-3-1"><span class="section-number-3">3.1</span> Starting AVDs #1</h3>
+                    <sectionX  id="text-3-1">
+                    <ol class="org-ol">
+                        <li>To start Android Virtual Devices (AVD) Manager from Linux terminal: <br  />
+                            <code>% .../android-sdk-linux/tools/android avd</code>
+                        </li>
+
+                        <li>Create three AVDs.  Different names, but otherwise identical. Start
+                            them.
+                        </li>
+
+                        <li>Emulator is based on QEMU.  So, it can take <code>-quemu</code> option
+                            arguments also.
+                        </li>
+
+                        <li><code>android-sdk-linux/tools/emulator -avd pmNX5 &amp;</code> This invokes the
+                            emulator directly without the AVD Manager.  Takes several arguments
+                            useful to us in P2.
+                        </li>
+                        <li>Do the above three times.
+                        </li>
+                        <li><code>% /usr/local/android-sdk-linux/platform-tools/adb devices</code>
+                            <section class="org-src-container">
+
+                                <pre class="src src-bash">List of devices attached 
+emulator-5554   device
+emulator-5556   device
+emulator-5558   device
+                                </pre>
+                            </section>
+                        </li>
+                    </ol>
+                </section>
+                </section>
+
+                <section id="outline-container-sec-3-2" class="outline-3">
+                    <h3 id="sec-3-2"><span class="section-number-3">3.2</span> Starting AVDs #2</h3>
+                    <sectionX  id="text-3-2">
+                    <ol class="org-ol">
+                        <li>The 5554 .. are port numbers on the PC.  Each AVD uses two ports;
+                            e.g., 5554 ("telnet console") and 5555 (adb).
+                        </li>
+
+                        <li>Invoke three terminal (e.g., <code>konsole</code>) sessions.  Invoke <code>adb shell</code>
+                            to one AVD in each.
+                        </li>
+
+                        <li>Explore the content of the AVD.
+                        </li>
+
+                        <li>Configure the IP addresses, etc. so that the three AVDs can see
+                            (e.g., ping) each other on the network.
+                        </li>
+
+                        <li><code>root@generic:/ # ifconfig eth0</code>
+                        </li>
+
+                        <li><code>eth0: ip 10.0.2.15 mask 255.255.255.0 flags [up broadcast running multicast]</code>
+                        </li>
+                    </ol>
+                </section>
+                </section>
+
+
+                <section id="outline-container-sec-3-3" class="outline-3">
+                    <h3 id="sec-3-3"><span class="section-number-3">3.3</span> Install apks in Snapshots</h3>
+                    <sectionX  id="text-3-3">
+                    <ol class="org-ol">
+                        <li><code>adb install ~/Downloads/aDownLoaded.apk</code> can install the file on
+                            your PC named <code>aDownLoaded.apk</code> as an app into the snapshot.
+                        </li>
+                    </ol>
+                </section>
+                </section>
+
+                <section id="outline-container-sec-3-4" class="outline-3">
+                    <h3 id="sec-3-4"><span class="section-number-3">3.4</span> toolbox</h3>
+                    <sectionX  id="text-3-4">
+                    <ol class="org-ol">
+                        <li><code>root@generic:/ # ls -l /system/bin/toolbox</code> 
+                        </li>
+
+                        <li>size = 139040 bytes. Android, ARM CPU, program.  Several tools
+                            compiled and linked into one program.  E.g., <code>mount -&gt; toolbox</code> and
+                            <code>kill -&gt; toolbox</code>
+                        </li>
+
+                        <li>You may want to install <code>busybox</code>  Three to four times bigger.
+                        </li>
+
+                        <li><a href="../Refreshers">Refresher</a>: Invoking a program; passing arguments to the process.
+                        </li>
+                    </ol>
+                </section>
+                </section>
+
+                <section id="outline-container-sec-3-5" class="outline-3">
+                    <h3 id="sec-3-5"><span class="section-number-3">3.5</span> Install busybox into the emulator-5554</h3>
+                    <sectionX  id="text-3-5">
+                    <ol class="org-ol">
+                        <li>We are installing <code>busybox</code> just make network setup easier; better <code>route</code> etc.
+                        </li>
+                        <li>This is a part of rooting.  Incomplete.  Not persistent.
+                        </li>
+                        <li><a href="http://busybox.net/downloads/binaries/latest/">http://busybox.net/downloads/binaries/latest/</a> Download busybox-armv7l
+                        </li>
+                        <li>Notice prompt strings
+                            <ol class="org-ol">
+                                <li><code>%</code> Logged into Linux PC as myself, not root
+                                </li>
+                                <li><code>root@generic:/ #</code> Logged into AVD pmNX5 as root
+                                </li>
+                            </ol>
+                        </li>
+                        <li><code>% adb shell mount -o rw,remount -t yaffs2 /dev/block/mtdblock03 /system</code> You may have to change details; e.g., mtdblock03 may have to be mtdblock0
+                        </li>
+                        <li><code>% adb push ~pmateti/Downloads/busybox-armv7l /system/xbin</code> ~pmateti/Downloads is where I saved it
+                        </li>
+                    </ol>
+                </section>
+                </section>
+
+                <section id="outline-container-sec-3-6" class="outline-3">
+                    <h3 id="sec-3-6"><span class="section-number-3">3.6</span> Install busybox into the emulator-5554  contd.</h3>
+                    <sectionX  id="text-3-6">
+                    <ol class="org-ol">
+                        <li><code>% adb shell</code>
+                        </li>
+                        <li><code>root@generic:/ # chmod 555 /system/xbin/busybox-armv7l</code> set execute permission
+                        </li>
+                        <li><code>root@generic:/ # mv /system/xbin/busybox-armv7l /system/xbin/busybox</code> not required
+                        </li>
+                        <li><code>root@generic:/ # busybox</code> gives a list of all commands within busybox
+                        </li>
+
+                        <li>size comparison
+                            <pre class="example">
+root@generic:/ # ls -l /system/bin/toolbox /system/xbin/busybox
+-rwxr-xr-x root     shell      139040 2013-12-05 14:07 toolbox
+-r-xr-xr-x root     root      1109128 2014-06-03 19:15 busybox
+                            </pre>
+                        </li>
+                    </ol>
+                </section>
+                </section>
+                </section>
+
+                <section id="outline-container-sec-4" class="outline-2">
+                    <h2 id="sec-4"><span class="section-number-2">4</span> <a href="./AVD-Networking.html">Networking AVDs</a></h2>
+                </section>
+
+
+                <section id="outline-container-sec-5" class="outline-2">
+                    <h2 id="sec-5"><span class="section-number-2">5</span> File System</h2>
+                    <sectionX  id="text-5">
+                    <ol class="org-ol">
+                        <li><a href="../Refreshers">Refresher</a>: ext4, vfat, yaffs2, mount, umount, &#x2026;
+                        </li>
+
+                        <li>Ubuntu currently does not support yaffs2. See
+                            <a href="http://askubuntu.com/questions/234258/how-to-mount-a-yaffs2-filesystem">http://askubuntu.com/questions/234258/how-to-mount-a-yaffs2-filesystem</a>
+                        </li>
+                    </ol>
+                </section>
+
+                <section id="outline-container-sec-5-1" class="outline-3">
+                    <h3 id="sec-5-1"><span class="section-number-3">5.1</span> Mount Table of emulator-5554 pmNX5</h3>
+                    <sectionX  id="text-5-1">
+                    <pre class="example">
+root@generic:/ # mount
+rootfs / rootfs ro,relatime 0 0
+tmpfs /dev tmpfs rw,seclabel,nosuid,relatime,mode=755 0 0
+devpts /dev/pts devpts rw,seclabel,relatime,mode=600 0 0
+proc /proc proc rw,relatime 0 0
+sysfs /sys sysfs rw,seclabel,relatime 0 0
+selinuxfs /sys/fs/selinux selinuxfs rw,relatime 0 0
+debugfs /sys/kernel/debug debugfs rw,relatime 0 0
+none /acct cgroup rw,relatime,cpuacct 0 0
+none /sys/fs/cgroup tmpfs rw,seclabel,relatime,mode=750,gid=1000 0 0
+tmpfs /mnt/asec tmpfs rw,seclabel,relatime,mode=755,gid=1000 0 0
+tmpfs /mnt/obb tmpfs rw,seclabel,relatime,mode=755,gid=1000 0 0
+none /dev/cpuctl cgroup rw,relatime,cpu 0 0
+/dev/block/mtdblock0 /system ext4 ro,seclabel,relatime,data=ordered 0 0
+/dev/block/mtdblock1 /data ext4 rw,seclabel,nosuid,nodev,noatime,nomblk_io_submit,data=ordered 0 0
+/dev/block/vold/179:0 /mnt/media_rw/sdcard vfat rw,dirsync,nosuid,nodev,noexec,relatime,uid=1023,gid=1023,fmask=0007,dmask=0007,allow_utime=0020,codepage=cp437,iocharset=iso8859-1,shortname=mixed,utf8,errors=remount-ro 0 0
+/dev/fuse /storage/sdcard fuse rw,nosuid,nodev,relatime,user_id=1023,group_id=1023,default_permissions,allow_other 0 0
+                    </pre>
+                </section>
+                </section>
+
+                <section id="outline-container-sec-5-2" class="outline-3">
+                    <h3 id="sec-5-2"><span class="section-number-3">5.2</span> Mount Table of emulator-5554 pmNX5</h3>
+                    <sectionX  id="text-5-2">
+                    <ol class="org-ol">
+                        <li>The <code>/dev/block/mtdblock0 /dev/block/mtdblock1
+                                /dev/block/vold/179:0</code> are block devices.  Persistent.  That is,
+                            you can examine them off-line.
+                        </li>
+
+                        <li>Quiz: How do these "map" to the .imp files shown from the
+                            <code>~/.android/avd/pmNX5a.avd/</code> ?
+                        </li>
+
+                        <li>The <code>rootfs, tmpfs, devpts, proc, sysfs, selinuxfs, debugfs</code> are
+                            file volumes that Linux OS created from the OS-internal
+                            information.  Not persistent. They are reconstructed each time the
+                            device boots.
+                        </li>
+                    </ol>
+                </section>
+                </section>
+                </section>
+
+                <section id="outline-container-sec-6" class="outline-2">
+                    <h2 id="sec-6"><span class="section-number-2">6</span> References</h2>
+                    <sectionX  id="text-6">
+                    <ol class="org-ol">
+                        <li><a href="http://developer.android.com/tools/devices/emulator.html">http://developer.android.com/tools/devices/emulator.html</a> Must read.
+                        </li>
+
+                        <li><a href="http://developer.android.com/tools/help/emulator.html">http://developer.android.com/tools/help/emulator.html</a> command line
+                            options for the emulator
+                        </li>
+
+                        <li><a href="http://askubuntu.com/questions/234258/how-to-mount-a-yaffs2-filesystem">http://askubuntu.com/questions/234258/how-to-mount-a-yaffs2-filesystem</a>
+                            Reference
+                        </li>
+                    </ol>
+                </section>
+                </section>
+                </section>
+                <section id="postamble" class="status">
+                    <hr size=1>Copyright &copy; 2015 <a href="http://www.wright.edu/~pmateti">www.wright.edu/~pmateti</a>
+                </section>
+    </body>
+</html>
+</section>
+</section>
+            </div>
+        </div>
+        <script src="../../js/head.min.js"></script>
+        <script src="../../js/reveal.min.js"></script>
+
+        <script>
+Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: false,
+    center: true,
+    slideNumber: true,
+    rollingLinks: true,
+    keyboard: true,
+    overview: true,
+    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+    transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+    transitionSpeed: 'default',
+
+    dependencies: [
+    { src: '../../js/classList.js', condition: function() { return !document.body.classList; } }
+    ,{ src: '../../js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+    ,{ src: '../../js/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+    ,{ src: '../../js/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+    ,{ src: '../../js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }
+    ,{ src: '../../js/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+    ]
+});
+        </script>
+
+

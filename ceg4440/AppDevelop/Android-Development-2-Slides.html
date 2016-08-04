@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>(Android Development #2)</title>
+        <meta name="author" content="(Prabhaker Mateti)"/>
+        <meta name="description" content="WSU CEG 4900/6900 Android Internals and Security"/>
+        <link rel="stylesheet" href="../../css/reveal.min.css"/>
+        <link rel="stylesheet" href="../../css/night.css" id="theme"/>
+
+        <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print"/>
+    </head>
+    <body>
+        <a href="./Android-Development-2-OnePage.html"> Single-Page</a><style> P {text-align: justify} code, pre.src, pre.src-java  {font-family: monospace; font-size: 10pt; color: brown;}  </style>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1>Android Development #2</h1><h3>Prabhaker Mateti</h3><a href="mailto:pmateti@wright.edu">pmateti@wright.edu</a><br>  Second Lecture on App Dev <br><a href="../../Top/"> CEG 4900/6900: Android Internals and Security</a></section>
+                <section>
+                    <h2>Table of Contents</h2><ul>
+                        <li>
+                            <a href="#sec-1">Application Components</a>
+                        </li>
+                        <li>
+                            <a href="#sec-2">Context</a>
+                        </li>
+                        <li>
+                            <a href="#sec-3">Actvity</a>
+                        </li>
+                        <li>
+                            <a href="#sec-4">Actvity Lifecycle</a>
+                        </li>
+                        <li>
+                            <a href="#sec-5">Service Lifecycle</a>
+                        </li>
+                        <li>
+                            <a href="#sec-6">Broadcast Receiver Lifecycle</a>
+                        </li>
+                        <li>
+                            <a href="#sec-7">Intent</a>
+                        </li>
+                    </ul>
+                </section>
+
+
+                <section id="sec-1" >
+
+                    <h2><span class="section-number-2">1</span> Application Components</h2>
+                    <ol class="org-ol">
+                        <li><code>android.content.Context</code>: access to files, device resources,
+                            services.
+                        </li>
+
+                        <li><code>android.content.ContentProvider</code>: Manages a shared set of application data.
+                        </li>
+
+                        <li><code>android.content.Intent</code>: A request message to do something.  Asynchronous
+                            broadcast.
+                        </li>
+
+                        <li><code>android.content.BroadcastReceiver</code>: Responds to intent broadcasts.
+                        </li>
+
+                        <li><code>android.app.Activity</code>: A screen with UI.  An Android app is a collection of
+                            activities.  Extends Context.
+                        </li>
+                        <li><code>android.app.Fragment</code>: An activity further divided.  
+                        </li>
+                        <li><code>android.app.Service</code>: runs in the background; Long-running; No UI.
+                            Service extends the Context class.
+                        </li>
+                        <li>After an overview of the above, we study the code of an open source
+                            app.  This semester <a href="./index.html">OpenSudoku</a> .
+                        </li>
+                    </ol>
+                </section>
+                <section id="sec-2" >
+
+                    <h2><span class="section-number-2">2</span> Context</h2>
+                    <ol class="org-ol">
+                        <li><code>Context xt = getApplicationContext();</code>
+                        </li>
+
+                        <li>public abstract class extends java.lang.Object
+                            <ol class="org-ol">
+                                <li>implementaton is provided by the Android system.
+                                </li>
+                                <li>Interface to global informaton about an app environment.
+                                </li>
+                                <li>Working with application permissions
+                                </li>
+                            </ol>
+                        </li>
+
+                        <li>Selected methods
+                            <ol class="org-ol">
+                                <li>File getExternalFilesDir(String type)
+                                </li>
+                                <li>FileOutputStream openFileOutput(String name, int mode)
+                                </li>
+                                <li>Intent registerReceiver (BroadcastReceiver, IntentFilter, String
+                                    broadcastPermission, Handler scheduler)
+                                </li>
+                                <li>void sendBroadcast(Intent intent, String receiverPermission)
+                                </li>
+                                <li>void startActvities(Intent[] intents)
+                                </li>
+                                <li>Object getSystemService(String name)
+                                </li>
+                                <li>ComponentName startService(Intent service)
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </section>
+                <section id="sec-3" >
+
+                    <h2><span class="section-number-2">3</span> Actvity</h2>
+                    <ol class="org-ol">
+                        <li>An Actvity is an application component that provides a UI screen &#x2013;
+                            e.g., dial the phone, take a photo, send an email, or view a map.
+                        </li>
+
+                        <li>Each actvity is given a window.
+                            <ol class="org-ol">
+                                <li>typically fills the screen, but
+                                </li>
+                                <li>may be smaller than the screen
+                                </li>
+                                <li>float on top of other windows
+                                </li>
+                            </ol>
+                        </li>
+
+                        <li>One actvity can start another, even a different application.
+                        </li>
+
+                        <li>&lt;activity&gt; declaration in AndroidManifest.xml.
+                        </li>
+                    </ol>
+
+                </section>
+                <section>
+                    <section id="sec-3-1" >
+
+                        <h3><span class="section-number-3">3.1</span> Actvities vs Tasks: Activity</h3>
+                        <ol class="org-ol">
+                            <li>A concrete class in the API
+                            </li>
+                            <li>An encapsulaton of a partcular operaton
+                            </li>
+                            <li>Runs in the process of the .apk
+                            </li>
+                            <li>Has an executon Context
+                            </li>
+                        </ol>
+                    </section>
+                </section>
+                <section>
+                    <section id="sec-3-2" >
+
+                        <h3><span class="section-number-3">3.2</span> Actvities vs Tasks: Task</h3>
+                        <ol class="org-ol">
+                            <li>A collecton of related Actvities
+                            </li>
+                            <li>Capable of spanning multple processes
+                            </li>
+                            <li>Has an Activity Stack
+                            </li>
+                        </ol>
+                    </section>
+                </section>
+                <section id="sec-4" >
+
+                    <h2><span class="section-number-2">4</span> Actvity Lifecycle</h2>
+                    <img src="./activity_lifecycle.png" alt="activity_lifecycle.png" />
+
+                </section>
+                <section>
+                    <section id="sec-4-1" >
+
+                        <h3><span class="section-number-3">4.1</span> Actvity Lifecycle</h3>
+                        <ol class="org-ol">
+                            <li>Running state: An actvity is in the <i>foreground</i>; its screen is
+                                visible; this activity is at the top of the stack for the task.
+                            </li>
+
+                            <li>Paused state: An actvity has lost <i>focus</i>; its screen visible.
+                            </li>
+
+                            <li>Stopped state: An actvity is completely obscured by another
+                                actvity. Retains state informaton.
+                            </li>
+
+                            <li>If an actvity is paused or stopped, the system can drop it from
+                                virtual memory either by:
+                                <ol class="org-ol">
+                                    <li>asking it to finish (calling its finish() method)
+                                    </li>
+                                    <li>simply killing its process.
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </section>
+                </section>
+                <section>
+                    <section id="sec-4-2" >
+
+                        <h3><span class="section-number-3">4.2</span> Actvity Lifecycle #2</h3>
+                        <ol class="org-ol">
+                            <li>onCreate()
+                                <ol class="org-ol">
+                                    <li>when the actvity is first created, or
+                                    </li>
+                                    <li>when the actvity was killed
+                                    </li>
+                                </ol>
+                            </li>
+
+                            <li>onStart()
+                                <ol class="org-ol">
+                                    <li>just before the actvity becomes visible to user
+                                    </li>
+                                </ol>
+                            </li>
+
+                            <li>onRestart()
+                                <ol class="org-ol">
+                                    <li>after the actvity has been stopped, just prior to it being
+                                        started again
+                                    </li>
+                                </ol>
+                            </li>
+
+                            <li>onResume()
+                                <ol class="org-ol">
+                                    <li>just before the actvity starts interactng with the user
+                                    </li>
+                                    <li>At this point, the actvity is at the top of the actvity stack,
+                                        with user input going to it.
+                                    </li>
+                                </ol>
+                            </li>
+
+                            <li>onPause()
+                                <ol class="org-ol">
+                                    <li>when the system is about to start resuming another actvity
+                                    </li>
+
+                                    <li>This method is typically used to commit unsaved changes to
+                                        persistent data, stop animatons and other things that may be
+                                        consuming CPU, and so on.
+                                    </li>
+                                </ol>
+                            </li>
+
+                            <li>onStop()
+                                <ol class="org-ol">
+                                    <li>when the actvity is no longer visible to the user
+                                    </li>
+                                    <li>This may happen because it is being destroyed, or because
+                                        another actvity has been resumed and is covering it.
+                                    </li>
+                                </ol>
+                            </li>
+
+                            <li>onDestroy()     1.  Called before the actvity is destroyed
+                            </li>
+                        </ol>
+                    </section>
+                </section>
+                <section>
+                    <section id="sec-4-3" >
+
+                        <h3><span class="section-number-3">4.3</span> Actvity Lifecycle #3</h3>
+                        <ol class="org-ol">
+                            <li>Three nested loops for the entre life cycle
+                            </li>
+
+                            <li>Entire Lifetime:  OnCreate() .. OnDestroy()
+                            </li>
+
+                            <li>Visible Lifetime: onStart() .. onStop()
+                                <ol class="org-ol">
+                                    <li>During this time, the user can see the actvity on screen
+                                    </li>
+                                    <li>onStart() and onStop() can be called multple times
+                                    </li>
+                                </ol>
+                            </li>
+
+                            <li>Foreground Lifetime: OnResume() .. OnPause()
+                                <ol class="org-ol">
+                                    <li>During this time, the actvity is in front of all other
+                                        actvities on screen and is interactng with the user.
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </section>
+                </section>
+                <section id="sec-5" >
+
+                    <h2><span class="section-number-2">5</span> Service Lifecycle</h2>
+                    <img src="./service_lifecycle.png" alt="service_lifecycle.png" />
+                </section>
+                <section id="sec-6" >
+
+                    <h2><span class="section-number-2">6</span> Broadcast Receiver Lifecycle</h2>
+                    <ol class="org-ol">
+                        <li>Only single callback method
+                        </li>
+
+                        <li>onReceive(currentContext, Intent broadcastMsg)
+                        </li>
+
+                        <li>When a broadcast message arrives: method is passed the Intent message.
+                        </li>
+
+                        <li>A process with an active broadcast receiver is protected from being
+                            killed.
+                        </li>
+
+                        <li>A process with only inactive components can be killed by the system
+                            at any time.
+                        </li>
+                    </ol>
+
+                </section>
+                <section id="sec-7" >
+
+                    <h2><span class="section-number-2">7</span> Intent</h2>
+                </section>
+                <section>
+                    <section id="sec-7-1" >
+
+                        <h3><span class="section-number-3">7.1</span> Intent Examples</h3>
+                        <ol class="org-ol">
+                            <li>Open a Web Page
+                                <div class="org-src-container">
+
+                                    <pre class="src src-java"><span style="color: #228b22;">String</span> <span style="color: #a0522d;">url</span> = <span style="color: #8b2252;">"http://www.example.com"</span>;
+<span style="color: #b22222;">// </span><span style="color: #b22222;">check validity of url syntax</span>
+<span style="color: #228b22;">Intent</span> <span style="color: #a0522d;">nt</span> = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Intent</span>(<span style="color: #008b8b;">Intent</span>.ACTION_VIEW,  Uri.parse(url));
+startActivity(nt);
+                                    </pre>
+                                </div>
+                            </li>
+
+                            <li>Display a map
+                                <div class="org-src-container">
+
+                                    <pre class="src src-java"><span style="color: #228b22;">double</span> <span style="color: #a0522d;">latitude</span>  = 39.78041959898338;   <span style="color: #b22222;">// </span><span style="color: #b22222;">wright.edu Russ</span>
+<span style="color: #228b22;">double</span> <span style="color: #a0522d;">longitude</span> =  -84.0633028006414;  <span style="color: #b22222;">// </span><span style="color: #b22222;">wright.edu Russ</span>
+<span style="color: #228b22;">Intent</span> <span style="color: #a0522d;">nt</span> = <span style="color: #a020f0;">new</span> <span style="color: #228b22;">Intent</span>(<span style="color: #008b8b;">Intent</span>.ACTION_VIEW,
+  Uri.parse(<span style="color: #8b2252;">"geo:"</span> + latitude + <span style="color: #8b2252;">","</span> + longitude));
+startActivity(nt);
+                                    </pre>
+                                </div>
+                            </li>
+
+                            <li>Intent Examples on the Web
+                                <ol class="org-ol">
+                                    <li><a href="https://github.com/d-tarasov/android-intents/">https://github.com/d-tarasov/android-intents/</a> A collection of
+                                        well-known Android intents for most common actions
+                                    </li>
+                                    <li><a href="http://www.androidsnippets.com/">http://www.androidsnippets.com/</a>
+                                    </li>
+                                    <li><a href="http://www.openintents.org/">http://www.openintents.org/</a>
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </section>
+                </section>
+            </div>
+        </div>
+        <script src="../../js/head.min.js"></script>
+        <script src="../../js/reveal.min.js"></script>
+        <script>
+
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
+    slideNumber: true,
+    rollingLinks: true,
+    keyboard: true,
+    overview: true,
+    // slide width
+    // slide height
+    // slide margin
+    // slide minimum scaling factor
+    // slide maximum scaling factor
+
+
+    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+    transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+    transitionSpeed: 'default',
+
+    // Optional libraries used to extend on reveal.js
+    dependencies: [
+    { src: '../../js/classList.js', condition: function() { return !document.body.classList; } }
+    ,{ src: '../../js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+    ,{ src: '../../js/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+    ,{ src: '../../js/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+    ,{ src: '../../js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }
+    ,{ src: '../../js/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+    // { src: 'http://www.cs.wright.edu/~pmateti/RevealJS/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+    // { src: 'http://www.cs.wright.edu/~pmateti/RevealJS/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+
+    ]
+});
+        </script>
+    </body>
+</html>

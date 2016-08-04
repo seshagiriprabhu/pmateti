@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>PMateti ISSISP 2016</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/style.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <style>
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+        </style>
+    </head>
+
+    <body>
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../index.html">Prabhaker Mateti</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="../../android-security.html">Android Security</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container">
+            <h1 style="text-align:center">ARP Poisoning</h1>
+            [<a href="network-attacks.html"><span class="glyphicon glyphicon glyphicon-arrow-left"></span> Back</a>]
+            <br/>
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="text-table-of-contents">
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="#sec-1">ARP</a></li>
+                            <li class="list-group-item"><a href="#sec-2">ARP Poisoning</a></li>
+                            <li class="list-group-item"><a href="#sec-3">ARP Poisoning Why?</a></li>
+                            <li class="list-group-item"><a href="#sec-4">ARP Poisoning Cleanup</a></li>
+                            <li class="list-group-item"><a href="#sec-5">ARP Poisoning on Android</a></li>
+                            <li class="list-group-item"><a href="#sec-6">References</a></li>
+                        </ul>
+                    </div> <!-- table of contents -->
+                </div> <!-- col-md-4 -->
+            </div> <!-- row -->
+
+            <div id="outline-container-sec-1" class="outline-2">
+                <h2 id="sec-1"><span class="section-number-2">1</span> ARP</h2>
+                <div class="outline-text-2" id="text-1">
+                    <ol class="org-ol">
+                        <li>ARP = Address Resolution Protocol
+                        </li>
+                        <li>Given an IP address, find the MAC address of it.  The routing
+                            portion of the OS needs this info.
+                        </li>
+                        <li>The OS broadcast the query: Give me the MAC address. IP address is
+                            in the payload of the packet.
+                        </li>
+                        <li>One machine is expected to reply:  Here is the MAC address.
+                        </li>
+                        <li>Trust!
+                        </li>
+                        <li>More than one replies?  At lease a misconfig of network. Or deceit
+                            is happening.
+                        </li>
+
+                        <li>The OS keeps the replies in the ARP table.  Once the IP+MAC address
+                            pair is in this table, the OS will not query again.
+                        </li>
+
+                        <li>Note that it is OK to have multiple IP addresses for one MAC
+                            address.
+                        </li>
+
+                        <li>RARP = Reverse Address Resolution Protocol.  Have MAC address.
+                            What is the IP address?
+                        </li>
+                        <li>Both ARP and RARP are strictly LAN.  Should not appear on the
+                            Internet at large.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div id="outline-container-sec-2" class="outline-2">
+                <h2 id="sec-2"><span class="section-number-2">2</span> ARP Poisoning</h2>
+                <div class="outline-text-2" id="text-2">
+                    <ol class="org-ol">
+                        <li>Also called ARP Spoofing.  ARP Poisoning is a better term.
+                        </li>
+                        <li>The OS internal ARP table has incorrect information.
+                        </li>
+                        <li>How did this happen?
+                            <ol class="org-ol">
+                                <li>OS received a reply to its query from the "wrong" machine.
+                                </li>
+                                <li>Didn't the OS receive a reply from the "right" one?  May not
+                                    have.  May be the right machine was not "up".  Was up but
+                                    answered a little later.  Etc.
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div id="outline-container-sec-3" class="outline-2">
+                <h2 id="sec-3"><span class="section-number-2">3</span> ARP Poisoning Why?</h2>
+                <div class="outline-text-2" id="text-3">
+                    <ol class="org-ol">
+                        <li>Enables MiTM.  Often part of a larger attack.
+                        </li>
+
+                        <li>All IP traffic with a destination IP address of IPD1 (of a NIC on
+                            machine M1) will be received by machine M2.
+                        </li>
+
+                        <li>M2 may not have done the mischief.  Another M3 may have.
+                        </li>
+
+                        <li>M1 does not "copy" the packets because the dest MAC address on it
+                            is not its.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-4" class="outline-2">
+                <h2 id="sec-4"><span class="section-number-2">4</span> ARP Poisoning Cleanup</h2>
+                <div class="outline-text-2" id="text-4">
+                    <ol class="org-ol">
+                        <li>On a fresh reboot, the OS starts with a clean slate.
+                        </li>
+                        <li>Empty the ARP table.  Use <code># arp</code>  Read <code>man arp</code>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-5" class="outline-2">
+                <h2 id="sec-5"><span class="section-number-2">5</span> ARP Poisoning on Android</h2>
+                <div class="outline-text-2" id="text-5">
+                    <ol class="org-ol">
+                        <li>Several apk exist.  Not on Google Play.
+                        </li>
+                        <li>Open source, white hat, implementations are readily available. E.g.,
+                            <ol class="org-ol">
+                                <li>driodsheep
+                                </li>
+                                <li>netspoof
+                                </li>
+                                <li>web search for links
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div id="outline-container-sec-6" class="outline-2">
+                <h2 id="sec-6"><span class="section-number-2">6</span> References</h2>
+                <div class="outline-text-2" id="text-6">
+                    <ol class="org-ol">
+                        <li><a href="http://en.wikipedia.org/wiki/Address_Resolution_Protocol">http://en.wikipedia.org/wiki/Address_Resolution_Protocol</a> Recommended Reading.
+                        </li>
+
+                        <li>Chris Sanders, <a href="http://www.windowsecurity.com/articles-tutorials/authentication_and_encryption/Understanding-Man-in-the-Middle-Attacks-ARP-Part1.html">Understanding Man-in-the-Middle Attacks</a>, ARP Cache
+                            Poisoning, www.windowsecurity.com, 2010.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+
+        <footer class="footer">
+            <div class="container">
+                <div class="col-md-8 col-md-offset-4">
+                    <p>Copyright © 2016 | pmateti [AT] wright [DOT] edu | ISSISP 2016</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- jQuery Version 1.11.1 -->
+        <script src="../../js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../../js/bootstrap.min.js"></script>
+
+    </body>
+
+</html>

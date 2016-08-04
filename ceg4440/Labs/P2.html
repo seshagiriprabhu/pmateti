@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>PMateti ISSISP 2016</title>
+        <!-- Bootstrap Core CSS -->
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/style.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <style>
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+        </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../index.html">Prabhaker Mateti</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="../../android-security.html">Android Security</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+        <!-- Page Content -->
+        <div class="container">
+            <h1 style="text-align:center">Development of Networked Android Apps</h1>
+            [<a href="../../android-security.html"><span class="glyphicon glyphicon glyphicon-arrow-left"></span> Back</a>]
+            <br/>
+            The purpose of this lab/project is to get you deeper into Android
+            development which is a prerequisite to security discussion.  Build for
+            Android Lollipop.
+            <h2>Task 1: Networking Android Virtual Devices</h2>
+            Refresh on networking essentials: 
+            <a href="http://cecs.wright.edu/~pmateti/Courses/4440/Lectures/Refreshers/index.html">
+                ../Lectures/Refreshers/index.html</a>.  Understand the section on
+            Emulator Networking in 
+            <a href="http://developer.android.com/tools/devices/emulator.html">
+                http://developer.android.com/ tools/ devices/ emulator.html
+            </a>.
+            Task: Network three devices so that an ssh client-server setup is
+            demonstrable between any pair.  These devices can be 
+            <ul>
+                <li>AVDs on the PC(s) </li>
+                <li>Real devices</li>
+            </ul>
+            The AVDs should differ slightly from
+            each other so we can id them easily.
+            We will use this network in Task 3.
+            <br/>
+            <strong>Deliverables:</strong>
+            <ul>
+                <li>Routing tables.</li>
+                <li>Proof that the network works.</li>
+            </ul>
+            <h2>Task 2: Shrink OpenSudoku Given its Source Code</h2>
+            Read our overview of Open Sudoku
+            in <a href="../Lectures/AppDevelop"> ../Lectures/AppDevelop</a>.
+            Also, visit <a href="http://opensudoku.moire.org/"> http://opensudoku. moire. org/</a>,
+            which has a source download link.  Google
+            Play Store has OpenSudoku as a free app.  (It is highly recommended
+            that you install this on your real device.)  Install this on your AVD
+            using adb.  It is helpful, but not essential, to learn to solve Sudoku
+            puzzles (using <code>OpenSudoku.apk</code>).
+            <ol>
+                <li>
+                    Task: Build as-is from the source and run this APK.  Write a paragraph
+                    or two on how you built it.  Link to source is in the overview of
+                    Open Sudoku.  Capture 4+ interesting screenshots.  Especially
+                    capture the screens that will go away -- see below.
+                </li>
+                <li>
+                    Task: The app as-given has a range of functionality.  Chop off all
+                    this functionality, and bring it down to the essentials of just
+                    interactively solving Sudoku.  E.g., it can download Sudoku examples
+                    from various places.  Make sure to ACK the OpenSudoku project on the
+                    first screen.  Change to edu.wright.ceg4440.  Build and run this
+                    stripped down APK.  Capture 4+ interesting screenshots.
+                </li>
+            </ol>
+            We will use the stripped down OpenSudoku in Task 3.  Also, this is
+            an efficient way to become familiar with howto develop a "medium-size"
+            APK, without actually writing all of it.
+            <strong>Deliverables</strong>
+            <ul>
+                <li>Screenshots</li>
+                <li>Two .apk files -- before and after</li>
+                <li>Your project files, after the strip down, as an archive exported from IDE.</li>
+            </ul>
+            <h2>Task 3: Collaborative Sudoku</h2>
+            Modify the app so that different players can collaborate over a
+            network.
+            Task: Add a network based mechanism that synchronizes the display
+            of the current puzzle being solved.  Ignore authentication issues.
+            Ignore complicated synchronization issues.  You may use one of two
+            ways of networking the Collaborative Sudoku.
+            <ol>
+                <li> 
+                    Use the network established in Task 1 to connect three AVDs or
+                    real devices, each running the modified OpenSudoku.  Unless you
+                    already have a good understanding of TCP/IP, this can be hard.
+                </li>
+                <li> 
+                    Use <a href="https://developers.google.com/cloud-messaging/">
+                        https://developers.google.com/cloud-messaging/
+                    </a>.
+                </li>
+            </ol>
+            <strong>Deliverables:</strong>
+            <ul>
+                <li>Pseudo code level design description</li>
+                <li>Explicit list of source code changes made</li> 
+                <li>apk</li>
+            </ul>
+        </div>
+        <!-- /.container -->
+        <footer class="footer">
+            <div class="container">
+                <div class="col-md-8 col-md-offset-4">
+                    <p>Copyright © 2016 | pmateti [AT] wright [DOT] edu | ISSISP 2016</p>
+                </div>
+            </div>
+        </footer>
+        <!-- jQuery Version 1.11.1 -->
+        <script src="../../js/jquery.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../../js/bootstrap.min.js"></script>
+    </body>
+</html>

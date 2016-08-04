@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>PMateti ISSISP 2016</title>
+        <!-- Bootstrap Core CSS -->
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/style.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <style>
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+        </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../index.html">Prabhaker Mateti</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="../../android-security.html">Android Security</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+        <!-- Page Content -->
+        <div class="container">
+            <h1 style="text-align:center">Android App Development: Networking</h1>
+            [<a href="./appdevelop.html"><span class="glyphicon glyphicon glyphicon-arrow-left"></span> Back</a>]
+            [<a href="Android-Development-2-Slides.html"><span class="glyphicon glyphicon glyphicon glyphicon-play"></span> slides</a>]
+            <h2>Table of Contents</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="text-table-of-contents">
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="#sec-1">Networking</a></li>
+                            <li class="list-group-item"><a href="#sec-2">Ports</a></li>
+                            <li class="list-group-item"><a href="#sec-3">Sockets</a></li>
+                            <li class="list-group-item"><a href="#sec-4">Java Networking</a></li>
+                            <li class="list-group-item"><a href="#sec-5">Android Socket App Example</a></li>
+                            <li class="list-group-item"><a href="#sec-6">Collaborative Sudoku</a></li>
+                            <li class="list-group-item"><a href="#sec-7">Linux/Android IPtables</a></li>
+                            <li class="list-group-item"><a href="#sec-8">AVD Networking: Adding NIC eth1</a></li>
+                            <li class="list-group-item"><a href="#sec-9">References</a></li>
+                        </ul>
+                    </div>
+                </div> <!-- col-md-4 -->
+            </div>
+            <!-- row -->
+            <div id="outline-container-sec-1" class="outline-2">
+                <h2 id="sec-1"><span class="section-number-2">1</span> Networking</h2>
+                <div class="outline-text-2" id="text-1">
+                    <ol class="org-ol">
+                        <li>Networking is essential to smart phones.
+                        </li>
+                        <li>Builtin <code>wlan0</code>
+                            <ol class="org-ol">
+                                <li>Learn WPA2 (Wi-Fi Protected Access)
+                                </li>
+                                <li>Learn to setup Wireless Access Points/ Broadband
+                                </li>
+                            </ol>
+                        </li>
+                        <li>Most commone: bluetooth
+                        </li>
+                        <li>Fairly common: NFC
+                        </li>
+                        <li>Phone service based: 2G, 3G, 4G, LTE
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div id="outline-container-sec-2" class="outline-2">
+                <h2 id="sec-2"><span class="section-number-2">2</span> Ports</h2>
+                <div class="outline-text-2" id="text-2">
+                    <ol class="org-ol">
+                        <li>A port is a 16-bit unsigned number that network protocols expect
+                            the OS to "understand" as an abstraction.
+                        </li>
+                        <li>A port is part of the TCP and UDP packets.  TCP port#s disjoint from UDP#s.
+                        </li>
+                        <li>Port is open == Host OS is receiving packets with this port#.
+                            Associated processes will receive the payloads.
+                        </li>
+                        <li>Port is closed == Host OS is "ignoring" packets with this port#.
+                            May log.
+                        </li>
+                        <li>Traditional assignment of port#: <code>/etc/services</code>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div id="outline-container-sec-3" class="outline-2">
+                <h2 id="sec-3"><span class="section-number-2">3</span> Sockets</h2>
+                <div class="outline-text-2" id="text-3">
+                    <ol class="org-ol">
+                        <li>Sockets are essential to the client server model.
+                        </li>
+                        <li>A socket is created by the system call: <code>sockfd = int socket(int domain, int
+                                type, int protocol)</code>  The int returned is a (socket) file descriptor.
+                        </li>
+                        <li>Initiate a connection on a socket: <code>int connect(int sockfd, const
+                                struct sockaddr *addr, socklen_t addrlen)</code>
+                        </li>
+                        <li>Other related syscalls: <code>bind()</code>, <code>listen()</code>, <code>accept()</code>
+                        </li>
+                        <li>Read/Write: <code>n = write(sockfd, "I got your message", 18);</code>
+                        </li>
+                        <li>Definition of <code>sockaddr_in</code>.  The <code>_in</code> refers to Internet; not
+                            input.
+                                <pre> 
+struct sockaddr_in {
+    short sin_family;
+    u_short sin_port;  /* port# in proper network byte order. */
+    struct  in_addr sin_addr;
+    char    sin_zero[8];
+};
+                                </pre>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div id="outline-container-sec-4" class="outline-2">
+                <h2 id="sec-4"><span class="section-number-2">4</span> Java Networking</h2>
+                <div class="outline-text-2" id="text-4">
+                    <ol class="org-ol">
+                        <li>(Omitting all error checks, and in between code)
+                        </li>
+                        <li>Client 
+                            <div class="org-src-container">
+<pre>
+InetAddress sa = InetAddress.getByName("10.0.2.2");
+Socket skt = new Socket(sa, 5000); // port = 5000
+java.io.OutputStream ostrm = skt.getOutputStream();
+</pre>
+                            </div>
+                        </li>
+                        <li>Server
+                            <div class="org-src-container">
+<pre>
+ServerSocket serverSocket = new ServerSocket(6000); // port = 6000
+Socket skt = serverSocket.accept();
+java.io.InputStream istrm = skt.getInputStream();
+</pre>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div id="outline-container-sec-5" class="outline-2">
+                <h2 id="sec-5"><span class="section-number-2">5</span> Android Socket App Example</h2>
+                <div class="outline-text-2" id="text-5">
+                    <ol class="org-ol">
+                        <li>Java networking as above
+                        </li>
+                        <li>Server started on port 6000 on emulator 
+                        </li>
+                        <li>Client started on emulator B, connects to 10.0.2.2:5000
+                        </li>
+                        <li>telnet to A, redir add tcp:5000:6000
+                        </li>
+                        <li>Now click on Client.
+                        </li>
+                        <li><a href="http://examples.javacodegeeks.com/android/core/socket-core/android-socket-example/">Android Socket App Example</a> More explanation, Zip.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div id="outline-container-sec-6" class="outline-2">
+                <h2 id="sec-6"><span class="section-number-2">6</span> Collaborative Sudoku</h2>
+                <div class="outline-text-2" id="text-6">
+                    <ol class="org-ol">
+                        <li>Construct a sequence of bytes as a representation of the current
+                            state of the puzzle.
+                        </li>
+                        <li>Send this on first connect from a client sudoku.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div id="outline-container-sec-7" class="outline-2">
+                <h2 id="sec-7"><span class="section-number-2">7</span> Linux/Android IPtables</h2>
+                <div class="outline-text-2" id="text-7">
+                    <ol class="org-ol">
+                        <li>Firewalls
+                        </li>
+                        <li>IP packet filtering
+                        </li>
+                        <li>NAT Network Address Translation
+                        </li>
+                        <li>iptables; soon to be replaced with NFTtables
+                        </li>
+                        <li><a href="http://cecs.wright.edu/~pmateti/Courses/4420/PacketFilter/index.html">http://cecs.wright.edu/~pmateti/Courses/4420/PacketFilter/index.html</a>
+                            <ol class="org-ol">
+                                <li>Slides
+                                </li>
+                                <li>Ignore the Lab from the above.
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div id="outline-container-sec-8" class="outline-2">
+                <h2 id="sec-8"><span class="section-number-2">8</span> AVD Networking: Adding NIC eth1</h2>
+                <div class="outline-text-2" id="text-8">
+                    <ol class="org-ol">
+                        <li>Creata a virtual interface <code>tap0</code> on Linux PC: <code>% sudo tunctl -u
+                                $USER -t tap0</code>  (If <code>tunctl</code> is mssing, <code>% sudo apt-get install
+                                uml-utilities</code> User Mode Linux utilities)
+                        </li>
+                        <li><code>% sudo ifconfig tap0 192.168.178.1</code>
+                        </li>
+                        <li><code>% sudo sysctl net.ipv4.ip_forward=1</code> Enable tap0 as a router
+                        </li>
+                        <li><code>% ifconfig -a</code>
+                        </li>
+                        <li>Start the emulator with QEMU extra arguments
+                            <ol class="org-ol">
+                                <li><code>% emulator -avd pmNX5 -qemu -net nic -net user -net nic -net tap,ifname=tap0,script=no,downscript=no</code> all one line
+                                </li>
+                                <li>The <code>tap0</code> of Linux PC becomes <code>eth1</code> of the AVD.
+                                </li>
+                            </ol>
+                        </li>
+                        <li><code>% adb shell -s emulator-5554</code>  The AVD corresp to the above.
+                        </li>
+                        <li><a href="./Android-Virtual-Devices.html">Install busybox</a> (if not already there).
+                        </li>
+                        <li><code># busybox ifconfig eth1 192.168.17.2</code> in the AVD
+                        </li>
+                        <li><code># busybox route add default gw 192.168.178.1 dev eth1</code>
+                        </li>
+                        <li><code># busybox route -n</code> Check the routing table.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div id="outline-container-sec-9" class="outline-2">
+                <h2 id="sec-9"><span class="section-number-2">9</span> References</h2>
+                <div class="outline-text-2" id="text-9">
+                    <ol class="org-ol">
+                        <li><a href="http://wiki.qemu.org/Documentation/Networking">http://wiki.qemu.org/Documentation/Networking</a>  Recommended Reading.
+                        </li>
+                        <li><a href="https://help.ubuntu.com/community/IptablesHowTo">https://help.ubuntu.com/community/IptablesHowTo</a>  Recommended Reading.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- /.container -->
+        <footer class="footer">
+            <div class="container">
+                <div class="col-md-8 col-md-offset-4">
+                    <p>Copyright © 2016 | pmateti [AT] wright [DOT] edu | ISSISP 2016</p>
+                </div>
+            </div>
+        </footer>
+        <!-- jQuery Version 1.11.1 -->
+        <script src="../../js/jquery.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../../js/bootstrap.min.js"></script>
+    </body>
+</html>

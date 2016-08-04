@@ -1,0 +1,33 @@
+/* Sticky footer styles
+ * -------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+.footer {
+	border-top-width: 2px;
+	border-top-style: solid;
+	border-top-color: #333;
+    padding-top: 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+}
+
+#aboutCourse, #aboutMe {
+    padding-top:10px;
+    padding-left:20px;
+    padding-bottom:20px;
+    /*margin-bottom:10px;*/
+}
+
+#aboutCourse  h2 {
+    margin-top:5px;
+    margin-bottom: 5px;
+}

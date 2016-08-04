@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>PMateti ISSISP 2016</title>
+        <!-- Bootstrap Core CSS -->
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/style.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <style>
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+        </style>
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../index.html">Prabhaker Mateti</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="../../android-security.html">Android Security</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+        <!-- Page Content -->
+        <div class="container">
+            <h1 style="text-align:center">Android TCP/IP Attacks</h1>
+            [<a href="../../android-security.html"><span class="glyphicon glyphicon glyphicon-arrow-left"></span> Back</a>]
+            <br/>
+            <strike>Please sign the 
+            <a href="./ethicsStmt.html"> Statement of Ethics</a>.
+            If you do not wish to sign it, see Dr Mateti before proceeding with
+            this P3.</strike>
+            The purpose of this lab is to get you started with security issues
+            in/around Android using APKs of free open source versions
+            (<a href="http://en.wikipedia.org/wiki/Free_and_open-source_software">
+                FOSS</a>); see the References below.
+            <b>Exercise Great Caution</b> re where (physical location and wired
+            or wireless network) you run the Task 3 and 4 experiments.  It is
+            possible that sysadmins of your institution and other places will be
+            upset with you.
+            <b>Power cycling</b> the device, in the worst case, should erase the
+            lingering effects, if any, of these experiments.
+            <b>Rooting and Wifi:</b> The tasks of this lab need wifi and a
+            rooted real device.  Rooted because of the privileged operations.
+            Wifi because of the source of code of the apk that we intend to use.
+            Unfortunately, it is too hard to add wifi to the Android SDK's
+            emulators.  We have not tried other emulators for wifi.
+            <b>ARP and DNS poisoning</b> are weaknesses of the TCP/IP suite,
+            wired or wireless.  The venerable (i)
+            <a href="http://ettercap.github.io/ettercap/">
+                ettercap</a>, (ii)
+            <a href="http://packetstormsecurity.com/sniffers/hunt/">
+                hunt</a>, and (iii)
+            <a href="http://www.monkey.org/~dugsong/dsniff/">
+                dsniff</a> are ready-to-install packages on many Linux x86 distros.
+            These are considerably more refined than the apps listed in the
+            References. ARM versions, and hence Android apk, of these are not so
+            readily found.
+
+            <h3>Task 1: Rooting the Emulator</h3>
+            To give you a realistic enough feel as to what rooting entails, we do
+            it on the AVD.  Re-read the lecture notes on rooting.  Think + Read twice
+            before rooting a real device.
+            <br/>
+            <strong>Deliverables</strong>:
+            <ul>
+                <li>ls -l listing of busybox executable within the emulator</li> 
+                <li>A transcript of how you rooted.</li>
+            </ul>
+
+            <h3>Task 2: Monitoring Processes and Networking</h3>
+            There are several apps that can display the details of processes
+            and network connections.  All of this info is displayable by going
+            into the device via <code>adb shell</code>, or a terminal APK, but
+            these apps have nicer looking output.  Choose one.
+            <br/>
+            <strong>Deliverables</strong>: 
+            <ul>
+                <li>A review of the app you chose, and why you chose it.</li>
+                <li>Screenshots.</li>
+            </ul>
+
+            <h3>Task 3: Deliver ARP Poison</h3>
+            Task: One AVD conducts the ARP poisoning.  Another AVD suffers it.
+            Select an APK from the listed references.  Conduct a MiTM attack.
+            <br/> 
+            <strong>Deliverables</strong>:
+            <ul>
+                <li>Describe the MiTM attack you chose.</li>
+                <li>Transcript of ARP poisoning, and the MiTM session.</li>
+                <li>Screenshots.</li>
+            </ul>
+
+            <h3>Task 4: Deliver DNS Poison</h3>
+            Task: One AVD conducts the DNS poisoning.  Another AVD suffers it.
+            Select an APK from the listed references.  Conduct a MiTM attack.
+            <br/>
+            <strong>Deliverables</strong>: 
+            <ul>
+                <li>Describe the MiTM attack you chose</li>
+                <li>Transcript of ARP poisoning, and the MiTM session</li>
+                <li>Screenshots</li>
+                <li>A table comapring ARP and DNS poisoning -- similarites and dissimilarites.</li>
+            </ul>
+
+            <h3>Bonus</h3>
+            This part is optional, but highly encouraged.  Bonus points, from P2,
+            P3 and P4, are used to help push you into one-better-letter grade than
+            what you would otherwise get.  E.g., if you are about get a B, with
+            enough bonus points, you might get an A instead.  This is done without
+            having any lowering effect of the normal letter grades for other
+            students.  All of this is subjectively judged; no algorithmic details
+            or grading rubric will be given.
+            <ol>
+                <li>
+                    (50 points) TCP exploits are well known; see my lecture notes below.
+                    The open source programs that showcase these are almost always
+                    written in C/Python/etc.  Rewrite one such program so that it works
+                    well as an Android app.  You can assume that the device is rooted.
+                </li>
+                <li>
+                    (5 points each, 20 points total) Build the .apk from the source
+                    code of OS Monitor, DroidSheep, dSploit/cSploit, NetworkSpoofer.
+                </li>
+            </ol>
+
+            <h3>References</h3>
+            <ol>
+                <li> Prabhaker Mateti,
+                    <ul>
+                        <li>
+                            <a href="http://cecs.wright.edu/~pmateti/Courses/4440/Lectures/Security/rooting.html">
+                                Rooting an Android Virtual or Real Device
+                            </a>,
+                        </li>
+                        <li>
+                            <a href="http://cecs.wright.edu/~pmateti/Courses/4440/Lectures/Security/arp-poisoning.html">
+                                ARP Cache Poisoning</a>
+                        </li>
+                        <li>
+                            <a href="http://cecs.wright.edu/~pmateti/Courses/4440/Lectures/Security/dns-poisoning.html">
+                                DNS Cache Poisoning</a>
+                        </li>
+                        <li>
+                            <a href="http://cecs.wright.edu/~pmateti/Courses/4440/Lectures/Security/tcp-exploits.html"> TCP/IP
+                                Exploits</a>, Lecture Notes, 2014.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="http://droidsheep.de/">DroidSheep</a> can ARP poison.  The
+                    companion DroidSheep Guard monitors the Android's ARP-table.  With a
+                    few tweaks, the source code builds into .apk readily.  DroidSheep is
+                    no longer available on Google Play.  DroidSheep was part of a BS
+                    Thesis.
+                </li>
+                <li>
+                    <a href="http://dsploit.net"> dSploit</a> can do ARP and DNS
+                    poison.  This was FOSS. (Some unscrupulous people are releasing
+                    FOSS on Google Play with ads inserted, benefitting them instead of
+                    the author(s) of FOSS.) The new zANTI2 is no longer FOSS.  The
+                    <a href="http://www.csploit.org/"> http://www.csploit.org/</a> is
+                    a FOSS fork.
+                </li>
+                <li>
+                    <a href="http://www.digitalsquid.co.uk/netspoof/">
+                        Network Spoofer</a> can do ARP and DNS poisoning.  The site has
+                    links to its .apk that can be side loaded.  Building from source
+                    is slightly difficult.  Needs <a href="http://jsoup.org">
+                        http://jsoup.org</a>, etc.
+                </li>
+                <li> Android OS Monitor 
+                    <a href="https://github.com/eolwral/OSMonitor"> https://github.com/eolwral/OSMonitor</a>
+                    is FOSS.
+                </li>
+            </ol>
+        </div>
+        <!-- /.container -->
+        <footer class="footer">
+            <div class="container">
+                <div class="col-md-8 col-md-offset-4">
+                    Copyright © 2016 | pmateti [AT] wright [DOT] edu | ISSISP 2016</p>
+                </div>
+            </div>
+        </footer>
+        <!-- jQuery Version 1.11.1 -->
+        <script src="../../js/jquery.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../../js/bootstrap.min.js"></script>
+    </body>
+</html>

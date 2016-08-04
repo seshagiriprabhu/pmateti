@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>PMateti ISSISP 2016</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/style.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <style>
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+        </style>
+    </head>
+
+    <body>
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../index.html">Prabhaker Mateti</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="../../android-security.html">Android Security</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container">
+            <h1 style="text-align:center">Android Security: Hardening Linux Kernel + Android Framework</h1>
+            [<a href="../Security/index.html"><span class="glyphicon glyphicon glyphicon-arrow-left"></span> Back</a>]
+            [<a href="hardening-slides.html"><span class="glyphicon glyphicon glyphicon glyphicon-play"></span> slides</a>]            
+            <br/>
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="text-table-of-contents">
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="#sec-1">1. Hardening</a></li>
+                            <li class="list-group-item"><a href="#sec-2">2. LKM (Linux Kernel Modules)</a></li>
+                            <li class="list-group-item"><a href="#sec-3">3. Dynamic Freezing of SysCalls</a></li>
+                            <li class="list-group-item"><a href="#sec-3-1">3.1. Example: mount/umount</a></li>
+                            <li class="list-group-item"><a href="#sec-3-2">3.2. system-call-table[]</a></li>
+                            <li class="list-group-item"><a href="#sec-3-3">3.3. Freezing How To</a></li>
+                            <li class="list-group-item"><a href="#sec-3-4">3.4. Issues</a></li>
+                            <li class="list-group-item"><a href="#sec-4">4. Kernel Hardening with ASLR + ROP Prevention</a></li>
+                            <li class="list-group-item"><a href="#sec-5">5. Hardening the Android Framework</a></li>
+                            <li class="list-group-item"><a href="#sec-6">6. References</a></li>
+                        </ul>
+                    </div> <!-- table of contents -->
+                </div> <!-- col-md-4 -->
+            </div> <!-- row -->
+
+            <div id="outline-container-sec-1" class="outline-2">
+                <h2 id="sec-1"><span class="section-number-2">1</span> Hardening</h2>
+                <div class="outline-text-2" id="text-1">
+                    <ol class="org-ol">
+                        <li>Exploit Mitigation: Keep the software footprint minimal
+                        </li>
+                        <li>Keep the kernel trimmed
+                        </li>
+                        <li>Replace Framework components with better ones
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-2" class="outline-2">
+                <h2 id="sec-2"><span class="section-number-2">2</span> LKM (Linux Kernel Modules)</h2>
+                <div class="outline-text-2" id="text-2">
+                    <ol class="org-ol">
+                        <li>Object code file, .ko extension; see <i>lib/module</i>
+                        </li>
+                        <li>Operations: <code>insmod, rmmod</code> Load and Unload into the kernel address space
+                        </li>
+                        <li>Can add system calls
+                        </li>
+                        <li>Can modify system call table
+                        </li>
+                        <li>Windows, OSX also have kernel modules.
+                        </li>
+                        <li>Advice: Reduce the number and usage of LKMs
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-3" class="outline-2">
+                <h2 id="sec-3"><span class="section-number-2">3</span> Dynamic Freezing of SysCalls</h2>
+                <div class="outline-text-2" id="text-3">
+                    <ol class="org-ol">
+                        <li>Linux has some 370+ system calls; Do we need them all?
+                        </li>
+
+                        <li>The production of a new system call is complicated
+                            <ol class="org-ol">
+                                <li>Not intellectually
+                                </li>
+                                <li>In terms of Makefiles, what should be added where, &#x2026;
+                                </li>
+                                <li>Details <b>do</b> change with kernel versions
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+
+                <div id="outline-container-sec-3-1" class="outline-3">
+                    <h3 id="sec-3-1"><span class="section-number-3">3.1</span> Example: mount/umount</h3>
+                    <div class="outline-text-3" id="text-3-1">
+                        <ol class="org-ol">
+                            <li>mount: Do we need this through out the life of the OS?
+                                <ol class="org-ol">
+                                    <li>Only during certain "run-levels", e.g., "boot"
+                                    </li>
+                                </ol>
+                            </li>
+                            <li>umount: Need it during "shutdown"
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="outline-container-sec-3-2" class="outline-3">
+                    <h3 id="sec-3-2"><span class="section-number-3">3.2</span> system-call-table[]</h3>
+                    <div class="outline-text-3" id="text-3-2">
+                        <ol class="org-ol">
+                            <li>an array of ptrs to methods
+                            </li>
+                            <li>Initialized during kernel start
+                            </li>
+                            <li>Then onwards, in a read-only page
+                            </li>
+                            <li>There is a <code>system-call-unimplemented()</code> method
+                            </li>
+                            <li>All syscalls return a result/error code
+                            </li>
+                            <li><a href="http://man7.org/linux/man-pages/man2/syscall.2.html">http://man7.org/linux/man-pages/man2/syscall.2.html</a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="outline-container-sec-3-3" class="outline-3">
+                    <h3 id="sec-3-3"><span class="section-number-3">3.3</span> Freezing How To</h3>
+                    <div class="outline-text-3" id="text-3-3">
+                        <ol class="org-ol">
+                            <li>Using an LKM
+                            </li>
+                            <li>Change the system-call-table[] to read-and-write
+                            </li>
+                            <li>system-call-table[x] = system-call-unimplemented;
+                            </li>
+                            <li>Change the system-call-table[] back to read-only
+                            </li>
+                            <li>Unload the LKM
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="outline-container-sec-3-4" class="outline-3">
+                    <h3 id="sec-3-4"><span class="section-number-3">3.4</span> Issues</h3>
+                    <div class="outline-text-3" id="text-3-4">
+                        <ol class="org-ol">
+                            <li>Can this be used in an attack?
+                            </li>
+                            <li>Are LKMs dangerous?
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-4" class="outline-2">
+                <h2 id="sec-4"><span class="section-number-2">4</span> Kernel Hardening with ASLR + ROP Prevention</h2>
+                <div class="outline-text-2" id="text-4">
+                    <ol class="org-ol">
+                        <li>see <a href="../Injection/code-injection.html">Code Injection</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-5" class="outline-2">
+                <h2 id="sec-5"><span class="section-number-2">5</span> Hardening the Android Framework</h2>
+                <div class="outline-text-2" id="text-5">
+                    <ol class="org-ol">
+                        <li>Zygote to Morula to Enhanced Morula
+                            <ol class="org-ol">
+                                <li><a href="https://copperhead.co/2015/05/11/aslr-android-zygote">https://copperhead.co/2015/05/11/aslr-android-zygote</a>
+                                </li>
+                                <li><a href="https://copperhead.co/2015/06/11/android-pax">https://copperhead.co/2015/06/11/android-pax</a>
+                                </li>
+                            </ol>
+                        </li>
+
+                        <li>Binder IPC improvements
+                            <ol class="org-ol">
+                                <li>Man-in-the-Binder attack
+                                </li>
+                            </ol>
+                        </li>
+
+                        <li>Fine grained Permissions
+                            <ol class="org-ol">
+                                <li><a href="http://forum.xda-developers.com/xposed/">Xposed Framework</a> and <a href="http://forum.xda-developers.com/xposed/modules/">XPrivacy</a>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+
+            <div id="outline-container-sec-6" class="outline-2">
+                <h2 id="sec-6"><span class="section-number-2">6</span> References</h2>
+                <div class="outline-text-2" id="text-6">
+                    <ol class="org-ol">
+                        <li>Sunil Gadi, Security Hardened Kernels for Linux Servers, Wright
+                            State University, MS Thesis, Advisor: Prabhaker Mateti. 2004.
+                            <a href="./sgadi-ms-slides.pdf">Slides</a> | <a href="./sgadi-ms-thesis.pdf">Thesis</a>
+                        </li>
+
+                        <li>Prabhaker Mateti, Proper Config, Fortification, Hardening,
+                            <a href="http://cecs.wright.edu/~pmateti/Courses/4420/Top/index.html">Lecture Notes</a> 2014
+                        </li>
+
+                        <li>Priyanka Shetti, Enhanced Binder, Amrita U, MTech Thesis, 2015
+                        </li>
+                        <li>Asish K Sahadevan, "Security Improvements to the Android Kernel," Amrita U, MTech Thesis, 2015
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+
+        <footer class="footer">
+            <div class="container">
+                <div class="col-md-8 col-md-offset-4">
+                    <p>Copyright © 2016 | pmateti [AT] wright [DOT] edu | ISSISP 2016</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- jQuery Version 1.11.1 -->
+        <script src="../../js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../../js/bootstrap.min.js"></script>
+
+    </body>
+
+</html>

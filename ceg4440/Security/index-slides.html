@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Android Security</title>
+
+        <link rel="stylesheet" href="../../css/reveal.min.css"/>
+        <link rel="stylesheet" href="../../css/night.css" id="theme"/>
+        <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print"/>
+        <style> P {text-align: justify}
+code {color: yellow;}
+pre {color: bisque;}
+        </style>
+    </head>
+    <body>
+
+        <div class="reveal">
+            <div class="slides">
+
+                <section>
+                    <h1 class="title"> SN-719 at Amrita <br> Android Security </h1>
+                    <h2 style="color: bisque"> Prabhaker Mateti<h2>
+                            <h3>Wright State University</h3>
+                            <a href="http://www.cs.wright.edu/~pmateti">
+                                <tt>www.cs.wright.edu/~pmateti</tt></a>
+                </section>
+                <section "id=preamble">
+                    <h1 class="title">Android Security and Privacy: TOC</h1>
+                    <h3 style="color: bisque"> Prabhaker Mateti<h3>
+                            <h2>Wright State University</h2>
+                            <a href="http://www.cs.wright.edu/~pmateti"><tt>www.cs.wright.edu/~pmateti</tt></a>
+                </section>
+                <ol class="org-ol">
+                    <li>Android Security - 1: <a href="./Android-Security-Overview.html">Overview</a>
+                    </li>
+
+                    <li>Android Security - 2: TCP/IP <a href="./network-attacks.html">Network Attacks</a>
+                    </li>
+
+                    <li>Android Security - 3: <a href="./android-permissions.html">Permissions</a>,   <a href="./DAC.html">DAC,</a>   <a href="./nsa-se.html">MAC</a>
+                    </li>
+
+                    <li>Android Security - 4: <a href="./reverse-engineering.html">Reverse Engineering</a>
+                    </li>
+
+                    <li>Android Security - 5: <a href="./apk-dissection.html">Dissection of Mobile Malware</a>
+                    </li>
+
+                    <li>Android Security - 6: <a href="./malware-prevention.html">Malware Analysis + Detection</a>
+                    </li>
+
+                    <li>Android Security - 7: <a href="./privacy.html">Privacy</a>
+                    </li>
+
+                    <li>Android Security - 8: <a href="./pocket-spy.html">Android Device as a Pocket Spy</a>
+                    </li>
+
+                    <li>Android Security - 9: <a href="./forensics.html">Android Forensics</a>
+                    </li>
+
+                    <li>Android Security - 10: <a href="./hardening.html">Hardening</a>
+                    </li>
+
+                    <li>Android Security - 11: <a href="./code-injection.html">Code Injection</a>
+                    </li>
+
+                    <li>Android Security - 12: <a href="./code-injection.html">ASLR</a> (Address Space Layout Randomization)
+                    </li>
+
+                    <li>Android Security - 13: <a href="./code-injection.html">ROP</a> (Return Oriented Programming)
+                    </li>
+                    <li>Android Security - 14: <a href="./penetration.html">Attack/Penetration Testing</a>
+                    </li>
+                </ol>
+                </section>
+                <section id="postamble" class="status">
+                    <hr size=1>Copyright &copy; 2015 <a href="mailto:pmateti@wright.edu">pmateti@wright.edu</a> &bull; <a href="http://www.wright.edu/~pmateti">www.wright.edu/~pmateti</a> 2015-08-25
+                </section>
+    </body>
+</html>
+</section>
+</section>
+            </div>
+        </div>
+        <script src="../../js/head.min.js"></script>
+        <script src="../../js/reveal.min.js"></script>
+
+        <script>
+Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: false,
+    center: true,
+    slideNumber: true,
+    rollingLinks: true,
+    keyboard: true,
+    overview: true,
+    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+    transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+    transitionSpeed: 'default',
+
+    dependencies: [
+    { src: '../../js/classList.js', condition: function() { return !document.body.classList; } }
+    ,{ src: '../../js/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+    ,{ src: '../../js/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+    ,{ src: '../../js/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+    ,{ src: '../../js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }
+    ,{ src: '../../js/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+    ]
+});
+        </script>
+
+
