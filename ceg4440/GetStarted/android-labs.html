@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>PMateti ISSISP 2016</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/style.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <style>
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+        </style>
+    </head>
+
+    <body>
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../index.html">Prabhaker Mateti</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="../../android-security.html">Android Security</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container">
+            <h1 style="text-align:center">Android Lab Experiments</h1>
+            <h2>Table of Contents</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="text-table-of-contents">
+                        <ul>
+                            <li class="list-group-item"><a href="#sec-1">1. Overview</a></li>
+                            <li class="list-group-item"><a href="#sec-2">2. Local Lab Setup</a></li>
+                            <li class="list-group-item"><a href="#sec-3">3. Getting Started</a></li>
+                            <li class="list-group-item"><a href="#sec-4">4. Android Development</a></li>
+                            <li class="list-group-item"><a href="#sec-5">5. Android Internals</a></li>
+                            <li class="list-group-item"><a href="#sec-6">6. Android Networking</a></li>
+                            <li class="list-group-item"><a href="#sec-7">7. Build an Android ROM</a></li>
+                            <li class="list-group-item"><a href="#sec-8">8. KeyLogger</a></li>
+                            <li class="list-group-item"><a href="#sec-9">9. Reversing an Android APK</a></li>
+                            <li class="list-group-item"><a href="#sec-10">10. Android Smart Camera</a></li>
+                            <li class="list-group-item"><a href="#sec-11">11. ASLR+ROP on Android</a></li>
+                            <li class="list-group-item"><a href="#sec-12">12. Android ShellShock</a></li>
+                            <li class="list-group-item"><a href="#sec-13">13. Android HeartBleed</a></li>
+                            <li class="list-group-item"><a href="#sec-14">14. Android StageFright</a></li>
+                            <li class="list-group-item"><a href="#sec-15">15. Further Work</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div> <!-- col-md-4 -->
+            <div id="outline-container-sec-1" class="outline-2">
+                <h2 id="sec-1"><span class="section-number-2">1</span> Overview</h2>
+                <div class="outline-text-2" id="text-1">
+                    <p>
+                    Several (security) experiments using either the real Android
+                    devices or the Emulator are described below.  These are meant to be
+                    educational in a university/ college context.  We assume that the
+                    student has taken courses on OS Usage, Concepts, Internals and Design
+                    (such as <a href="http://cecs.wright.edu/~pmateti/Courses/2350/Top/index.html">CEG2350</a> and <a href="http://cecs.wright.edu/~pmateti/Courses/4350/Top/">CEG4350</a>).  Each lab includes sufficient notes on
+                    the background needed beyond what such courses cover.
+                    </p>
+
+                    <p>
+                    Depending on your available time, and how familiar you are with OS
+                    internals and networking, do as many of these tasks as possible.
+                    </p>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-2" class="outline-2">
+                <h2 id="sec-2"><span class="section-number-2">2</span> Local Lab Setup</h2>
+                <div class="outline-text-2" id="text-2">
+                    <p>
+                    To do these labs, you will need a PC running Linux and an Android
+                    device.  Amrita U, Bengaluru has provided access to their facilities
+                    and equipment.  Our notes do not describe how to do these labs on
+                    Windows.
+                    </p>
+
+                    <p>
+                    We have several helpers who can, on your request, watch over your
+                    shoulder as you do the work.
+                    </p>
+
+                    <p>
+                    If you wish setup your own lab, please read
+                    <a href="./android-lab-setup.html">./android-lab-setup.html</a>
+                    </p>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-3" class="outline-2">
+                <h2 id="sec-3"><span class="section-number-2">3</span> Getting Started</h2>
+                <div class="outline-text-2" id="text-3">
+                    <ol class="org-ol">
+                        <li>Android is-a Full-Scale Networked Computer System.  You should
+                            understand why.  In terms raw computing power and built-in internal
+                            storage, it will never compete with a PC, but in all other respects
+                            it is better.
+                        </li>
+
+                        <li>Lab: <a href="./GetStarted/get-started-lab.html">Get Started</a>.  Install (i) APKs such as AirDroid, KeepPass, FDroid,
+                            and AIDE, (ii) Linux-based applications such as bash, tmux, and
+                            sftp-server.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-4" class="outline-2">
+                <h2 id="sec-4"><span class="section-number-2">4</span> Android Development</h2>
+                <div class="outline-text-2" id="text-4">
+                    <ol class="org-ol">
+                        <li>Android imposes a structure on its applications that involves
+                            things called Content Providers, Actvity, Broadcast Receivers, and
+                            Intent.  
+                        </li>
+
+                        <li>These labs suggest the building of a few apps that will make these
+                            things familiar.
+                        </li>
+
+                        <li>Lab: <a href="./Sudoku-Open.html">Sudoku</a>: An Example FOSS APK.  Study its internals.
+                        </li>
+
+                        <li>Lab: <a href="./GetStarted/get-started-lab.html">Develop an APK</a>.  Build open-source Android apps from downloaded source
+                            code bundles.  Create your own HelloThisIsMe.apk.
+                        </li>
+
+                        <li>Lab: <a href="./Android-Virtual-Devices.html">Android Virtual Devices</a> Always try out a new APK in an
+                            emulator.  AVD is part of the Android Studio.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-5" class="outline-2">
+                <h2 id="sec-5"><span class="section-number-2">5</span> Android Internals</h2>
+                <div class="outline-text-2" id="text-5">
+                    <ol class="org-ol">
+                        <li>The Android system consists of four layers: (i) Linux kernel (at
+                            the bottom), (ii) a few psuedo devices, (iii) a collection of
+                            components called Android Framework (Binder, Activity Manager, &#x2026;),
+                            and finally (iv) Android Applications (aka. apps or APKs).
+                        </li>
+
+                        <li>Lab: <a href="../Internals/permissions.html">Explore Android Permission System</a>.  The permission system has
+                            changed considerably from its early release to what it is now in
+                            Android Nougat.
+                        </li>
+
+                        <li>Lab: Explore ext4 File System.  Other File Systems supported: <code>ntfs</code>,
+                            <code>vfat</code>, <code>yaffs2</code>
+                        </li>
+
+                        <li>Lab:  <a href="../Internals/init.html">Explore the INIT system</a>.  
+                        </li>
+
+                        <li>Lab: Installing <code>busybox</code>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-6" class="outline-2">
+                <h2 id="sec-6"><span class="section-number-2">6</span> Android Networking</h2>
+                <div class="outline-text-2" id="text-6">
+                    <ol class="org-ol">
+                        <li>Background: 1. Ports; 2. Sockets; 3. Java
+                            Networking; 4. Linux/Android IPtables; 5. AVD Networking:
+                            introducing virtual eth1;
+                        </li>
+
+                        <li>Lab: <a href="../Exploits/NetAttacks/netattacks-lab.html">Network Attacks</a>.  Attacks that are possible in any LAN or
+                            Internet brought to Android.  We install an APK on a rooted device.
+                            This APK let us experience ARP and DNS Cache Poisoning on a device
+                            that is not required to be rooted.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-7" class="outline-2">
+                <h2 id="sec-7"><span class="section-number-2">7</span> Build an Android ROM</h2>
+                <div class="outline-text-2" id="text-7">
+                    <ol class="org-ol">
+                        <li>These are not "security" labs.  These are focused on appreciating
+                            the software complexity of smart phones.  ROMs are buildable on an
+                            ordinary laptop.  Only caveat: 50+ GB of hard disk space is needed.
+                            On an i5 with 8 GB RAM, it can take 60+ minutes to build.
+                        </li>
+
+                        <li>Lab: Download a custom ROM and run it in the AVD.
+                        </li>
+                        <li>Lab: Down AOSP source code bundle, and build it into ROM.
+                        </li>
+                        <li>Lab: Down Cyanogenmod source code bundle, and build it into ROM.
+                        </li>
+                        <li>TBD <a href="../Internals/build-Android-ROM.html">../Internals/build-Android-ROM.html</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-8" class="outline-2">
+                <h2 id="sec-8"><span class="section-number-2">8</span> KeyLogger</h2>
+                <div class="outline-text-2" id="text-8">
+                    <ol class="org-ol">
+                        <li>Most Android devices  depend on on-screen virtual keyboards.
+                        </li>
+                        <li>Lab: Develop a harmless keyboard application.  F-Droid.org has a
+                            couple of FOSS APKs.  Fork off your own version.
+                        </li>
+                        <li>Lab: Turn the above APK into a spying key board.  It should capture
+                            every key stroke, and periodically upload to a cloud storage
+                            account the developer has setup for this purpose.
+                        </li>
+                        <li>Can we log all other "inputs", such as gestures?
+                        </li>
+                        <li>TBD <a href="../Exploits/KeyLogger/">../Exploits/KeyLogger/</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-9" class="outline-2">
+                <h2 id="sec-9"><span class="section-number-2">9</span> Reversing an Android APK</h2>
+                <div class="outline-text-2" id="text-9">
+                    <ol class="org-ol">
+                        <li>Android now has billions of APKs that are provided only in the
+                            binary form.  Google makes serious effort in discovering malicious
+                            ones.  Nevertheless many escape their scrutiny.
+                        </li>
+
+                        <li><a href="../Detection/Reversing/reversing-lab.html">Reverse Engineer an APK</a>.  An APK can be taken apart, and rebuilt
+                            with patches.  Examine how a ransomware APK worked.  Take a
+                            harmless APK and re-build it packed with a Trojan.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-10" class="outline-2">
+                <h2 id="sec-10"><span class="section-number-2">10</span> Android Smart Camera</h2>
+                <div class="outline-text-2" id="text-10">
+                    <ol class="org-ol">
+                        <li>A smart phone can be an effective spying device.  Its GPS can
+                            report you whereabouts.  Its microphone can record sounds in the
+                            room.  Its camera can see.  Its networking can periodically upload
+                            all the gathered data.  All this can be done stealthily.
+                        </li>
+
+                        <li><a href="../Exploits/PocketSpy">../Exploits/PocketSpy</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-11" class="outline-2">
+                <h2 id="sec-11"><span class="section-number-2">11</span> ASLR+ROP on Android</h2>
+                <div class="outline-text-2" id="text-11">
+                    <ol class="org-ol">
+                        <li>Remote code execution had many aliases: buffer over flow, stack
+                            smashing, etc. A better label is code injection into a running
+                            process.  Often placed on the run time stack or in the heap.
+                        </li>
+
+                        <li>Address Space Layout Randomization and NX bit were mitigtation
+                            techniques.  Stringing together, on the stack, a sequence of
+                            crafted addresses from code in the existing process is called
+                            Return-Oriented-Programming.  This requires dynamic analyses of
+                            control flow to detect an on-going ROP attack.
+                        </li>
+
+                        <li><a href="./ASLR+ROP/code-inject-lab.html">Code Inject</a>.  Learn ASLR, ROP on Android.  Without rooting a device
+                            this is much harder.  Rooting is described in the network attacks
+                            lab above.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-12" class="outline-2">
+                <h2 id="sec-12"><span class="section-number-2">12</span> Android ShellShock</h2>
+                <div class="outline-text-2" id="text-12">
+                    <ol class="org-ol">
+                        <li>ShellShock was a 2014 bug in bash, the ubiquitous command line
+                            shell.  The sehll is used in large scale servers.  Shellshock
+                            attacks, in the millions, were happening within hours of the
+                            initial disclosure.  Of course, the bug has been patched.
+                        </li>
+
+                        <li>Does your Android suffer from ShellShock?  Does your Linux PC
+                            suffer from it?
+                        </li>
+
+                        <li><a href="../Exploits/ShellShock/">../Exploits/ShellShock/</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-13" class="outline-2">
+                <h2 id="sec-13"><span class="section-number-2">13</span> Android HeartBleed</h2>
+                <div class="outline-text-2" id="text-13">
+                    <ol class="org-ol">
+                        <li>HeartBleed is a bug in the "heartbeat" portion of the OpenSSL, open
+                            source library for secure socket layer (aka TLS).  It went
+                            unnoticed for many years.  CVE-2014-0160 is the official reference
+                            to this bug.
+                        </li>
+
+                        <li><a href="../Exploits/HeartBleed/">../Exploits/HeartBleed/</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+
+            <div id="outline-container-sec-14" class="outline-2">
+                <h2 id="sec-14"><span class="section-number-2">14</span> Android StageFright</h2>
+                <div class="outline-text-2" id="text-14">
+                    <ol class="org-ol">
+                        <li>This is a good example to show how a simple bug can be elevated to
+                            a vulnerability and then crafted it into an exploit.  Despite the
+                            enormous publicity it received in 2015, the exploit did not spread
+                            in the wild.
+                        </li>
+
+                        <li>Article and Lab: <a href="../Exploits/StageFright/">../Exploits/StageFright/</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-sec-15" class="outline-2">
+                <h2 id="sec-15"><span class="section-number-2">15</span> Further Work</h2>
+                <div class="outline-text-2" id="text-15">
+                    <ol class="org-ol">
+                        <li><a href="http://cecs.wright.edu/~pmateti/Research/AndroidSecurity/theses-topics.html">Bachelor's and Master's level theses topics</a> on Android Security.
+                        </li>
+                        <li>Build Android APKs using Scala.
+                        </li>
+                        <li>Provenance.
+                        </li>
+                        <li>Enable proactive forensics.
+                        </li>
+                        <li>Code audit the security of Android internals and APKs.
+                        </li>
+                        <li>Design and development of Alternate ROMs.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+
+        <footer class="footer">
+            <div class="container">
+                <div class="col-md-8 col-md-offset-4">
+                    <p>Copyright © 2016 | pmateti [AT] wright [DOT] edu | ISSISP 2016</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- jQuery Version 1.11.1 -->
+        <script src="../../js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../../js/bootstrap.min.js"></script>
+
+    </body>
+
+</html>

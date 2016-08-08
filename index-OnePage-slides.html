@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Lectures by Prabhaker Mateti</title>
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet"
+          href="css/solarized.css"
+          id="theme">
+    <link rel="stylesheet" href="css/zenburn.css">
+    <style> P,li {text-align: justify}
+      code, tt {color: green;}
+      pre {color: blue;}
+    </style>
+  </head>
+<body>
+
+  <div class="reveal">
+    <div class="slides">
+<section "id=preamble">
+<h1 class="title"><a href="http://cecs.wright.edu/~pmateti/Courses/4440/Top/">Android Experiments</a> at <a href="http://www.amrita.edu/ISSISP2016">Amrita U Bengaluru 2016</a></h1><h2 style="color: black"> Prabhaker Mateti<h2><h3>Wright State University</h3><a href="http://www.cs.wright.edu/~pmateti">www.cs.wright.edu/~pmateti</a></section>
+<section id="table-of-contents">
+<h2>Table of Contents</h2>
+
+<ul>
+<li><a href="#orgheadline4">1. Abstract</a></li>
+<li><a href="#orgheadline5">2. Lectures</a></li>
+<li><a href="#orgheadline6">3. Labs</a></li>
+<li><a href="#orgheadline7">4. Lab 1: Get Started</a></li>
+<li><a href="#orgheadline8">5. Lab 2: Network Attacks</a></li>
+<li><a href="#orgheadline9">6. Lab 3: Reverse Engineer an APK</a></li>
+<li><a href="#orgheadline10">7. Lab 4: Rooting</a></li>
+<li><a href="#orgheadline11">8. <del>Lab 4: Code Inject</del></a></li>
+<li><a href="#orgheadline13">9. Labs: A Few More</a></li>
+<li><a href="#orgheadline14">10. Recent Exploits</a></li>
+<li><a href="#orgheadline15">11. Statement of Ethics</a></li>
+<li><a href="#orgheadline16">12. Survey of Attendees</a></li>
+</ul>
+</section>
+</section>
+
+
+
+<section id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4"><span class="section-number-2">1</span> Abstract</h2>
+<sectionX  id="text-1">
+<p>
+Smart phones have become the computing platform to help us lead our
+modern daily lives.  Android devices are physically small <del>devices</del> but
+otherwise far better equipped with multiple networks, cameras, and
+sensors than typical desktop computers.  That they make phone calls is
+incidental.  That they are on the body of their owners is significant.
+It is in this context that we should understand the security and
+privacy issues raised by these devices.
+</p>
+</section>
+
+<section id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.1</span> Abstract 2/4</h3>
+<sectionX  id="text-1-1">
+<p>
+Current research and development focus is mostly on UI, location/
+context based applications, and conservation of battery power, but the
+layers deep within the mobile platform that handle security and
+privacy are not as good as they can be.
+</p>
+</section>
+</section>
+
+<section id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">1.2</span> Abstract 3/4</h3>
+<sectionX  id="text-1-2">
+<p>
+We survey the exploits of the last couple of years ranging from
+arbitrary code execution, Heartbleed to StageFright.  In order to
+understand the technical details behind these, we must also understand
+not only the internals of the Android mobile OS, Java, Linux, and ARM
+CPU but also cloud computing and storage, and crowd sourcing.
+</p>
+</section>
+</section>
+
+<section id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">1.3</span> Abstract 4/4</h3>
+<sectionX  id="text-1-3">
+<p>
+In a lab environment, we let the users experience some of the
+exploits.  We present the details of rooting a device, reverse
+engineering the source code from its APK, and what it takes to design
+and build a custom ROM that can include proactive forensics.
+</p>
+</section>
+</section>
+</section>
+
+<section id="outline-container-orgheadline5" class="outline-2">
+<h2 id="orgheadline5"><span class="section-number-2">2</span> Lectures</h2>
+<sectionX  id="text-2">
+<ol class="org-ol">
+<li>Android <a href="ceg4440/Internals">Internals</a></li>
+<li>Android's Built-in <a href="ceg4440/Security">Security and Privacy</a></li>
+<li>Android <a href="ceg4440/Exploits">Exploits</a></li>
+<li>Android Exploit <a href="ceg4440/Prevention/malware-prevention.html">Prevention</a></li>
+<li>Android Attack <a href="ceg4440/Detection/detection.html">Detection</a></li>
+<li>Android Internals and Security, a "full" <a href="http://cecs.wright.edu/~pmateti/Courses/4440/Top/">course</a></li>
+</ol>
+</section>
+</section>
+
+<section id="outline-container-orgheadline6" class="outline-2">
+<h2 id="orgheadline6"><span class="section-number-2">3</span> Labs</h2>
+<sectionX  id="text-3">
+<ol class="org-ol">
+<li>Each lab experiment has several tasks.</li>
+<li>Depending on your available time, and how familiar you are with OS
+internals and networking, do as many of these tasks as possible.</li>
+
+<li>Setting up your own lab is easy: Linux/Windows PC + Android tools
+<a href="./android-lab-setup.html">setup</a> details.</li>
+</ol>
+</section>
+</section>
+
+
+<section id="outline-container-orgheadline7" class="outline-2">
+<h2 id="orgheadline7"><span class="section-number-2">4</span> Lab 1: <a href="ceg4440/Labs/P1.html" target="_blank">Get Started</a></h2>
+<sectionX  id="text-4">
+<ol class="org-ol">
+<li>Experience Android as a "full-scale" networked
+computer system.</li>
+<li>Install APKs such as AirDroid, KeepPass, FDroid, and AIDE.</li>
+<li>Install Linux-based applications such as bash, tmux,
+and sftp-server.  Build open-source Android apps from downloaded
+source code bundles.</li>
+<li>Create your own HelloThisIsMe.apk.</li>
+</ol>
+</section>
+</section>
+
+<section id="outline-container-orgheadline8" class="outline-2">
+<h2 id="orgheadline8"><span class="section-number-2">5</span> Lab 2: <a href="ceg4440/Labs/P3.html" target="_blank">Network Attacks</a></h2>
+<sectionX  id="text-5">
+<ol class="org-ol">
+<li>Attacks that are possible in any LAN or Internet brought to
+Android.</li>
+<li>We install an APK on a rooted device.  This APK let us
+experience ARP and DNS Cache Poisoning on a device that is not
+required to be rooted.</li>
+</ol>
+</section>
+</section>
+
+<section id="outline-container-orgheadline9" class="outline-2">
+<h2 id="orgheadline9"><span class="section-number-2">6</span> Lab 3: <a href="ceg4440/Labs/P4.html" target="_blank">Reverse Engineer an APK</a></h2>
+<sectionX  id="text-6">
+<ol class="org-ol">
+<li>Take apart an APK, and rebuild with patches.</li>
+<li>Examine how a ransomware APK worked.</li>
+<li>Take a harmless APK and re-build it packed with a Trojan.</li>
+</ol>
+</section>
+</section>
+
+<section id="outline-container-orgheadline10" class="outline-2">
+<h2 id="orgheadline10"><span class="section-number-2">7</span> Lab 4: <a href="ceg4440/Labs/P6.html" target="_blank">Rooting</a></h2>
+<sectionX  id="text-7">
+<ol class="org-ol">
+<li>Background</li>
+<li>Equipment Needed</li>
+<li>Task: Emulator of Android SDK</li>
+<li>Task: Create an AVD</li>
+<li>Task: ADB</li>
+<li>Task: Rooting an AVD</li>
+<li>Task: Rooting a Real Device</li>
+</ol>
+</section>
+</section>
+
+<section id="outline-container-orgheadline11" class="outline-2">
+<h2 id="orgheadline11"><span class="section-number-2">8</span> <del>Lab 4: <a href="ceg4440/Labs/P5.html" target="_blank">Code Inject</a></del></h2>
+<sectionX  id="text-8">
+<ol class="org-ol">
+<li>Learn ASLR, ROP on Android.  Without rooting a device
+this is much harder.  Rooting is described in the network attacks
+lab above.</li>
+</ol>
+</section>
+</section>
+
+<section id="outline-container-orgheadline13" class="outline-2">
+<h2 id="orgheadline13"><span class="section-number-2">9</span> Labs: A Few More</h2>
+<sectionX  id="text-9">
+<ol class="org-ol">
+<li>Here is a  <a href="ceg4440/GetStarted/android-labs.html">longer list</a> of Android lab experiments.</li>
+<li>Setting up your own lab is easy: Linux/Windows PC + Android tools
+<a href="ceg4440/GetStarted/android-lab-setup.html">setup</a> details.</li>
+</ol>
+</section>
+
+
+<section id="outline-container-orgheadline12" class="outline-3">
+<h3 id="orgheadline12"><span class="section-number-3">9.1</span> Local Lab Setup</h3>
+<sectionX  id="text-9-1">
+<p>
+To do these labs, you will need a PC running Linux and an Android
+device.  Amrita U, Bengaluru has provided access to their facilities
+and equipment.
+</p>
+
+<p>
+We have several helpers who can, on your request, watch over your
+shoulder as you do the work.
+</p>
+</section>
+</section>
+</section>
+
+<section id="outline-container-orgheadline14" class="outline-2">
+<h2 id="orgheadline14"><span class="section-number-2">10</span> <a href="./News">Recent Exploits</a></h2>
+<sectionX  id="text-10">
+<p>
+If time permits, there will be a lecture on the following topics:
+<a href="../Exploits/ShellShock">ShellShock</a>, 
+<a href="../Exploits/HeartBleed">HeartBleed</a>, 
+<a href="../Exploits/StageFright">StageFright</a>, and <a href="../Exploits/Injection">Arbitrary Code Execution</a>.
+</p>
+</section>
+</section>
+
+
+<section id="outline-container-orgheadline15" class="outline-2">
+<h2 id="orgheadline15"><span class="section-number-2">11</span> <a href="./Exploits/ethicsStmt.html">Statement of Ethics</a></h2>
+</section>
+
+<section id="outline-container-orgheadline16" class="outline-2">
+<h2 id="orgheadline16"><span class="section-number-2">12</span> <a href="files/survey_responses.pdf">Survey of Attendees</a></h2>
+</section>
+</section>
+<section id="postamble" class="status">
+<hr size=1>Copyright &copy; 2016 <a href="http://www.wright.edu/~pmateti"> www.wright.edu/~pmateti</a> &bull; 2016-07-20
+</section>
+</body>
+</html>
+</section>
+</section>
+
+</div>
+</div>
+
+<script src="js/head.min.js"></script>
+<script src="js/reveal.min.js"></script>
+
+<script>
+  Reveal.initialize({
+  controls: true,
+  progress: true,
+  history: false,
+  center: true,
+  slideNumber: true,
+//  rollingLinks: true,
+  keyboard: true,
+  overview: true,
+  theme: Reveal.getQueryHash().theme,
+  transition: Reveal.getQueryHash().transition || 'default',
+  transitionSpeed: 'default',
+
+  dependencies: [
+  ]
+  });
+</script>
+
+

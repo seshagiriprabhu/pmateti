@@ -54,12 +54,328 @@ body {
 
         <!-- Page Content -->
         <div class="container">
-            <h1 style="text-align:center">Android Forensics</h1>
-            [<a href="../../android-security.html"><span class="glyphicon glyphicon glyphicon-arrow-left"></span> Back</a>]
-            <br/>
-            <div class="alert alert-info">
-                <span class="glyphicon glyphicon-info-sign"></span> Page will be updated soon
+            <h1 style="text-align:center">Lab on Rooting an Android Device</h1>
+            <h2>Table of Contents</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div id="text-table-of-contents">
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="#orgheadline2">1. Background</a></li>
+                            <li class="list-group-item"><a href="#orgheadline3">2. Equipment Needed</a></li>
+                            <li class="list-group-item"><a href="#orgheadline7">3. Task: Emulator of Android SDK</a></li>
+                            <li class="list-group-item"><a href="#orgheadline8">4. Task: Create an AVD</a></li>
+                            <li class="list-group-item"><a href="#orgheadline9">5. Task: ADB</a></li>
+                            <li class="list-group-item"><a href="#orgheadline10">6. Task: Android Internals</a></li>
+                            <li class="list-group-item"><a href="#orgheadline12">7. Task: Rooting an AVD</a></li>
+                            <li class="list-group-item"><a href="#orgheadline19">8. Task: Rooting a Real Device</a></li>
+                            <li class="list-group-item"><a href="#orgheadline20">9. References</a></li>
+                            <li class="list-group-item"><a href="#orgheadline21">10. End</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div> <!-- col-md-4 -->
+            <div id="outline-container-orgheadline2" class="outline-2">
+                <h2 id="orgheadline2"><span class="section-number-2">1</span> Background</h2>
+                <div class="outline-text-2" id="text-1">
+                    <p>
+                    Before beginning the experiments described below, you should be able
+                    to answer the following questions.  The Lecture Notes of mine has the
+                    answers.  But, web search will be good enough.
+                    </p>
+                </div>
+
+                <div id="outline-container-orgheadline1" class="outline-3">
+                    <h3 id="orgheadline1"><span class="section-number-3">1.1</span> Background</h3>
+                    <div class="outline-text-3" id="text-1-1">
+                        <ol class="org-ol">
+                            <li>What are <a href="../partitions.html">partitions</a>? What is a file volume? What is mounting?</li>
+                            <li>What is <a href="./rooting.html">rooting</a>? What is su? sudo? busybox?</li>
+                            <li>What is a CPU emulator? What is QEMU?</li>
+                            <li>What is an AVD = Android Virtual Device?</li>
+                            <li>Does rooting make the device insecure?</li>
+                            <li>What does Android SDK install? The file <code>/usr/local/android-sdk/SDK
+                                       Readme.txt</code> has the answers.  Replace the dir
+                                   <i>usr/local/android-sdk</i> with the pathname of the SDK installation
+                                   on your system as appropriate.</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
+
+            <div id="outline-container-orgheadline3" class="outline-2">
+                <h2 id="orgheadline3"><span class="section-number-2">2</span> Equipment Needed</h2>
+                <div class="outline-text-2" id="text-2">
+                    <ol class="org-ol">
+                        <li>A PC with 5+ GB of available file space, and a decent CPU to run an
+                            ARM emultor without being too sluggish.  Preferably a Linux PC.  This
+                            lab is doable in Windows, but I am not interested in writing
+                            it up.</li>
+
+                        <li>You were alerted to bring your laptop with Android SDK already
+                            installed.</li>
+
+                        <li>You will need an AVD.</li>
+
+                        <li>A real Android device that you wish to root.  Optional.</li>
+                    </ol>
+                </div>
+            </div>
+
+
+            <div id="outline-container-orgheadline7" class="outline-2">
+                <h2 id="orgheadline7"><span class="section-number-2">3</span> Task: Emulator of Android SDK</h2>
+                <div class="outline-text-2" id="text-3">
+                    <p>
+                    The emulator is part of the standard bundle when you installed the
+                    SDK.  Write down the pathname of the SDK installation.
+                    On my PC, it is <code>/usr/local/android-sdk/</code>  
+                    </p>
+
+                    <p>
+                    The <code>ls -l</code> listings below are pruned.
+                    </p>
+                </div>
+
+                <div id="outline-container-orgheadline4" class="outline-3">
+                    <h3 id="orgheadline4"><span class="section-number-3">3.1</span> /usr/local/android-sdk/platform-tools</h3>
+                    <div class="outline-text-3" id="text-3-1">
+                        <div class="org-src-container">
+
+                            <pre class="src src-bash">
+-rwxrwxr-x 1 pmateti pmateti 2237804 Aug  4 19:14 adb
+drwxrwxr-x 2 pmateti pmateti    4096 Aug  4 19:14 api
+-rwxrwxr-x 1 pmateti pmateti 1482432 Aug  4 19:14 fastboot
+-rwxrwxr-x 1 pmateti pmateti 1124741 Aug  4 19:14 sqlite3
+drwxrwxr-x 3 pmateti pmateti    4096 Aug  4 19:14 systrace
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="outline-container-orgheadline5" class="outline-3">
+                    <h3 id="orgheadline5"><span class="section-number-3">3.2</span> /usr/local/android-sdk/tools</h3>
+                    <div class="outline-text-3" id="text-3-2">
+                        <div class="org-src-container">
+
+                            <pre class="src src-bash">
+-rwxrwxr-x 1 pmateti pmateti    3498 Aug  4 19:14 android
+drwxrwxr-x 2 pmateti pmateti    4096 Aug  4 19:14 bin64
+-rwxrwxr-x 1 pmateti pmateti    3286 Aug  4 19:14 ddms
+-rwxrwxr-x 1 pmateti pmateti  538144 Aug  4 19:14 emulator
+-rwxrwxr-x 1 pmateti pmateti 6574024 Aug  4 19:14 emulator64-arm
+-rwxrwxr-x 1 pmateti pmateti 4387752 Aug  4 19:14 emulator64-crash-service
+-rwxrwxr-x 1 pmateti pmateti 6725144 Aug  4 19:14 emulator64-x86
+-rwxrwxr-x 1 pmateti pmateti   92400 Aug  4 19:14 emulator-check
+-rwxrwxr-x 1 pmateti pmateti   12191 Aug  4 19:14 mksdcard
+-rwxrwxr-x 1 pmateti pmateti    1293 Aug  4 19:14 monitor
+-rwxrwxr-x 1 pmateti pmateti    3176 Aug  4 19:14 monkeyrunner
+drwxrwxr-x 7 pmateti pmateti    4096 Aug  4 19:14 proguard
+drwxrwxr-x 3 pmateti pmateti    4096 Aug  4 19:14 qemu
+-rwxrwxr-x 1 pmateti pmateti    2259 Aug  4 19:14 screenshot2
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="outline-container-orgheadline6" class="outline-3">
+                    <h3 id="orgheadline6"><span class="section-number-3">3.3</span> Tasks</h3>
+                    <div class="outline-text-3" id="text-3-3">
+                        <p>
+                        Answer the following.  After reading up.  After experimenting.
+                        </p>
+                        <li>What does /usr/local/android-sdk/tools/android do?</li>
+                        <li>What do the executables in tools/bin64 useful for?</li>
+                        <li>What is ddms?</li>
+                        <li>What does mksdcard do?</li>
+                        <li>What does systrace/ provide?</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="outline-container-orgheadline8" class="outline-2">
+                <h2 id="orgheadline8"><span class="section-number-2">4</span> Task: Create an AVD</h2>
+                <div class="outline-text-2" id="text-4">
+                    <ol class="org-ol">
+                        <li>Read <a href="https://developer.android.com/studio/run/managing-avds.html">https://developer.android.com/studio/run/managing-avds.html</a></li>
+
+                        <li>Create the following AVDs with the features of: (i) Nexus5, (ii) {ARM v7, 2
+                            GB RAM, 4 GB storage}.</li>
+
+                        <li>The disk images are stored within your home directory.  But,
+                            exactly where?  How much disk space was used by each the above
+                            AVDs?</li>
+                    </ol>
+                </div>
+            </div>
+
+
+            <div id="outline-container-orgheadline9" class="outline-2">
+                <h2 id="orgheadline9"><span class="section-number-2">5</span> Task: ADB</h2>
+                <div class="outline-text-2" id="text-5">
+                    <ol class="org-ol">
+                        <li>Invoke the following adb coomands: list-the-connected-devices,
+                            shell, push, pull files,</li>
+
+                        <li>List the partitions on your Android device.</li>
+                        <li>List what is mounted where.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-orgheadline10" class="outline-2">
+                <h2 id="orgheadline10"><span class="section-number-2">6</span> Task: Android Internals</h2>
+                <div class="outline-text-2" id="text-6">
+                    <ol class="org-ol">
+                        <li>List all partitions, and all mounts.</li>
+                        <li>Try re-mounting the <code>/system</code> partition with writing enabled.</li>
+                        <li>What is the <code>efs</code> directory? Where is it?  You may wantto read <a href="http://rescueroot.com/android/how-to-back-up-efs-on-samsung-devices/">this</a>
+                               and <a href="http://gs6.wonderhowto.com/how-to/prevent-bricks-by-backing-up-efs-partition-your-samsung-galaxy-s6-0162152/">this</a>.</li>
+                        <li>List all process running and separate them into (i) apps, (ii)
+                            Linux processes that are one shot, and (iii) Linux processes that
+                            are services.</li>
+                        <li>List all the sockets and their full pathnames.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="outline-container-orgheadline12" class="outline-2">
+                <h2 id="orgheadline12"><span class="section-number-2">7</span> Task: Rooting an AVD</h2>
+                <div class="outline-text-2" id="text-7">
+                    <p>
+                    Rooting an AVD is always going to be simpler than rooting a real
+                    device.  The main reason is bootloader image you chose ought to have
+                    been already unlocked.  Read <a href="file:///home/pmateti/Courses/4440/Amrita-2016/Internals/Root/rooting.html">Rooting an Android Device</a>
+                    </p>
+                </div>
+
+                <div id="outline-container-orgheadline11" class="outline-3">
+                    <h3 id="orgheadline11"><span class="section-number-3">7.1</span> Tasks</h3>
+                    <div class="outline-text-3" id="text-7-1">
+                        <ol class="org-ol">
+                            <li>Root an AVD.</li>
+
+                            <li>Install busybox and bash via adb install.  Did the device nned to
+                                be rooted for this?</li>
+
+                            <li>Captute the output of id.</li>
+
+                            <li>Unroot the AVD.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+
+            <div id="outline-container-orgheadline19" class="outline-2">
+                <h2 id="orgheadline19"><span class="section-number-2">8</span> Task: Rooting a Real Device</h2>
+                <div class="outline-text-2" id="text-8">
+                    <p>
+                    Rooting an AVD &#x2013; consider this as a prerequisite.
+                    </p>
+                </div>
+
+                <div id="outline-container-orgheadline13" class="outline-3">
+                    <h3 id="orgheadline13"><span class="section-number-3">8.1</span> Caution #1</h3>
+                    <div class="outline-text-3" id="text-8-1">
+                        <p>
+                        Find a rooting procedure on sites such as XDA for the specific real
+                        device that you wish to root.  Devices from the same manufacturer may
+                        require different procedure.  
+                        </p>
+                    </div>
+                </div>
+
+
+                <div id="outline-container-orgheadline14" class="outline-3">
+                    <h3 id="orgheadline14"><span class="section-number-3">8.2</span> Caution #2</h3>
+                    <div class="outline-text-3" id="text-8-2">
+                        <p>
+                        Be prepared mentally to not get frustrated. Do not proceed with
+                        rooting unless you are aware of an unbricking procedure for your
+                        device.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="outline-container-orgheadline15" class="outline-3">
+                    <h3 id="orgheadline15"><span class="section-number-3">8.3</span> Caution #3</h3>
+                    <div class="outline-text-3" id="text-8-3">
+                        <p>
+                        There are way too many blogs with incomplete, imprecise, and
+                        unreliable procedures.  I personally trust forums such as XDA, and
+                        will read through all the posts before deciding on the rooting
+                        procedure.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="outline-container-orgheadline16" class="outline-3">
+                    <h3 id="orgheadline16"><span class="section-number-3">8.4</span> Take a Bit of Risk</h3>
+                    <div class="outline-text-3" id="text-8-4">
+                        <p>
+                        Go ahead! Root your device!
+                        Android's hardware + software is quite robust.  It is difficult to
+                        hard-brick your device as long as you are not trying random things.
+                        </p>
+
+                        <p>
+                        But, it is quite is easy to soft-brick a device even though you were
+                        very careful and understood all the steps on a technical level.
+                        </p>
+
+                        <p>
+                        Unbricking procedures for almost every well-known Android devices are
+                        out there on the web.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="outline-container-orgheadline17" class="outline-3">
+                    <h3 id="orgheadline17"><span class="section-number-3">8.5</span> Unlock the Bootloader Background</h3>
+                    <div class="outline-text-3" id="text-8-5">
+                        <ol class="org-ol">
+                            <li>This appears to be a decent <a href="http://www.howtogeek.com/239798/how-to-unlock-your-android-phones-bootloader-the-official-way/">article</a>.</li>
+
+                            <li>Enable unlocking the bootloader.  Explore the Settings.</li>
+                            <li>Force your device into the "bootloader mode" by pressing the
+                                buttons from power-off state to power-on.  Example button press:
+                                Press and hold Volume Down, then press power button until you see
+                                some message on the Android screen.  Pressing the buttons in the
+                                wrong should do no real damage.</li>
+                            <li>Connecting the Android and the PC is some times problematic.  Try
+                                different cables.  Try different USB ports.  On some devices, you
+                                need to remove the battery.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="outline-container-orgheadline18" class="outline-3">
+                    <h3 id="orgheadline18"><span class="section-number-3">8.6</span> Tasks</h3>
+                    <div class="outline-text-3" id="text-8-6">
+                        <ol class="org-ol">
+                            <li><code>fastboot oem unlock</code>  Capture all of its output.</li>
+                            <li>Install a recovery image using fastboot.</li>
+                            <li>Install a SuperUser APK.  Can be done using adb, or recovery OS.</li>
+                            <li>Verify that your device is rooted.  E.g., ES-file-explorer has a
+                                root mode.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div id="outline-container-orgheadline20" class="outline-2">
+                <h2 id="orgheadline20"><span class="section-number-2">9</span> References</h2>
+                <div class="outline-text-2" id="text-9">
+                    <ol class="org-ol">
+                        <li>Prabhaker Mateti, <a href="../../../ceg-4440/">Lecture Notes</a>, 2016. Look under the dir <code>Internals/</code>.</li>
+                        <li>Karim Yaghmour, Embedded Android, O'Reilly Media, Inc., 2013, 412
+                            pp;</li>
+                    </ol>
+                </div>
+            </div>
+
         </div>
         <!-- /.container -->
 

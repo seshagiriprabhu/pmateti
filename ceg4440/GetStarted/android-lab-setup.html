@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>PMateti ISSISP 2016</title>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/style.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <style>
+body {
+    padding-top: 70px;
+    /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+        </style>
+    </head>
+
+    <body>
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="../../index.html">Prabhaker Mateti</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="../../android-security.html">Android Security</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container">
+            <h1 style="text-align:center">Android Security Experiments Lab Setup</h1>
+            <ol class="org-ol">
+                <li>We will not be using Windows (any version).
+                </li>
+                <li>Linux on x86-64 machines.  Decent CPU. 8+ GB RAM. 50+ GB
+                    available HDD.  Preferably running Kubuntu latest.
+                </li>
+                <li>Android Studio installed.  <a href="http://developer.android.com/sdk/index.html">http://developer.android.com/sdk/index.html</a>
+                </li>
+                <li>Android SDK Stand-Alone
+                    <a href="https://developer.android.com/sdk/installing/index.html?pkg=tools">https://developer.android.com/sdk/installing/index.html?pkg=tools</a>
+                    <ol class="org-ol">
+                        <li>Include Emulator / AVD
+                        </li>
+                        <li>Includes adb, fastboot
+                        </li>
+                    </ol>
+                </li>
+                <li>Install location for the above two: <code>/usr/local/</code>
+                </li>
+                <li>run, as root, the following script
+                    <code>/usr/local/android-sdk-linux/tools/android</code> Update the packages
+                    to the latest versions.  Also, install ARM 64 V8a (Android N)
+                    and ARM EABI V7a (Android 6.0.0+ versions) system
+                    images.
+                </li>
+                <li>IntelliJ Idea Community Edition  installed <a href="https://www.jetbrains.com/idea/download/">https://www.jetbrains.com/idea/download/</a>
+                </li>
+                <li>Eclipse latest edition installed <a href="https://www.eclipse.org/downloads/">https://www.eclipse.org/downloads/</a>
+                </li>
+                <li>Oracle JDK 8, 7, and 6 (all three for x86-64) installed <a href="http://www.oracle.com/technetwork/java/javase/downloads/">http://www.oracle.com/technetwork/java/javase/downloads/</a>
+                </li>
+                <li>Keep the OpenJDK &#x2013; do not delete
+                </li>
+                <li><a href="./GetStarted/vm-setup.html">Virtual Box / VMware</a> setup
+                </li>
+            </ol>
+        </div>
+        <!-- /.container -->
+
+        <footer class="footer">
+            <div class="container">
+                <div class="col-md-8 col-md-offset-4">
+                    <p>Copyright © 2016 | pmateti [AT] wright [DOT] edu | ISSISP 2016</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- jQuery Version 1.11.1 -->
+        <script src="../../js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../../js/bootstrap.min.js"></script>
+
+    </body>
+
+</html>
